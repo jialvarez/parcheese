@@ -1,3 +1,4 @@
+
 # Parcheese 
 #
 # Copyright 2011 Parcheese Team.
@@ -17,20 +18,27 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-class Square:
+import table
+import player
 
-    def __init__(self, squareId, position):
-        self.squareId = squareId
-        self.position = position
-        self.checkerQty = 0
-        self.locked = False
-        self.checkers = ()
+class Game:
 
-    def setLocked(self):
-        self.locked = not self.locked
+    def __init__(self):
+        # here comes pygame window, config rules, etc...
+        self.players = [player.Player('neonigma', 'red')]
+        self.gameTable = table.Table(self.players)
 
-    def setCheckerQty(self):
-        seld.checkerQty = len(self.checkers)
+    def getPlayer(self, playerIndex):
+        return self.players[playerIndex]
+   
+    def getGameTable(self):
+        return self.gameTable
 
-    def addChecker(self, checker):
-        self.checkers = checker
+
+# TESTING!
+startGame = Game()
+myGameTable = startGame.getGameTable()
+
+# Testing players. This must be done with pygame and using mouse.
+# Example: moves player 0, checker 0
+myGameTable.playerMoves(startGame.getPlayer(0), 0)

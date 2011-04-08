@@ -17,20 +17,33 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-class Square:
+import checker
 
-    def __init__(self, squareId, position):
-        self.squareId = squareId
-        self.position = position
-        self.checkerQty = 0
-        self.locked = False
-        self.checkers = ()
+class Player:
 
-    def setLocked(self):
-        self.locked = not self.locked
+    def __init__(self, login, color):
+        self.login = login
 
-    def setCheckerQty(self):
-        seld.checkerQty = len(self.checkers)
+        # list comprehension for getting the checkers list
+        self.checkers = [checker.Checker(color) for chk in range(4)]
+        print self.checkers
 
-    def addChecker(self, checker):
-        self.checkers = checker
+    def getPlayerLogin(self):
+        return self.login
+
+    def getPlayerCheckers(self):
+        return self.checkers
+            
+    def move(self, checkerId, result):
+        checkerToMove = self.checkers[checkerId]
+
+        print "Moving " + str(checkerToMove.getColor()) + \
+              " checker: " + str(checkerToMove)
+
+        checkerToMove.move(result)
+
+        print "Moved " + str(checkerToMove) + \
+              " " + str(checkerToMove.getColor()) + \
+              " to position " + str(checkerToMove.getPosition())
+
+

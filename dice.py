@@ -17,20 +17,12 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-class Square:
+import random
 
-    def __init__(self, squareId, position):
-        self.squareId = squareId
-        self.position = position
-        self.checkerQty = 0
-        self.locked = False
-        self.checkers = ()
+class Dice:
 
-    def setLocked(self):
-        self.locked = not self.locked
+    def __init(self):
+        pass
 
-    def setCheckerQty(self):
-        seld.checkerQty = len(self.checkers)
-
-    def addChecker(self, checker):
-        self.checkers = checker
+    def throwDice(self):
+        return random.randint(1, 12) 
