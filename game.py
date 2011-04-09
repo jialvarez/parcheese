@@ -1,4 +1,3 @@
-
 # Parcheese 
 #
 # Copyright 2011 Parcheese Team.
@@ -25,7 +24,7 @@ class Game:
 
     def __init__(self):
         # here comes pygame window, config rules, etc...
-        self.players = [player.Player('neonigma', 'red')]
+        self.players = [player.Player('neonigma', 'red', 1)]
         self.gameTable = table.Table(self.players)
 
     def getPlayer(self, playerIndex):
@@ -42,3 +41,7 @@ myGameTable = startGame.getGameTable()
 # Testing players. This must be done with pygame and using mouse.
 # Example: moves player 0, checker 0
 myGameTable.playerMoves(startGame.getPlayer(0), 0)
+
+# New movement for player 0, checker 0
+myGameTable.playerMoves(startGame.getPlayer(0), 0)
+

@@ -24,7 +24,7 @@ class Square:
         self.position = position
         self.checkerQty = 0
         self.locked = False
-        self.checkers = ()
+        self.checkers = [] 
 
     def setLocked(self):
         self.locked = not self.locked
@@ -33,4 +33,13 @@ class Square:
         seld.checkerQty = len(self.checkers)
 
     def addChecker(self, checker):
-        self.checkers = checker
+        self.checkers.append(checker)
+
+    def getSquareId(self):
+        return self.squareId
+
+    def getPosition(self):
+        return self.position
+
+    def getCheckers(self):
+        return self.checkers

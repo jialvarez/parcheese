@@ -23,7 +23,7 @@ class Checker:
 
     def __init__(self, color):
         self.color = color
-        self.position = 1
+        self.position = 0
     
     def getColor(self):
         return self.color

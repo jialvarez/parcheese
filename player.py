@@ -18,24 +18,34 @@
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
 import checker
+import square
 
 class Player:
 
-    def __init__(self, login, color):
+    def __init__(self, login, color, initialPosition):
+        # login of player
         self.login = login
+
+        # initial position (in square) for one checker
+        self.initialPosition = initialPosition
 
         # list comprehension for getting the checkers list
         self.checkers = [checker.Checker(color) for chk in range(4)]
         print self.checkers
 
-    def getPlayerLogin(self):
+    def getLogin(self):
         return self.login
 
-    def getPlayerCheckers(self):
+    def getCheckers(self):
         return self.checkers
-            
-    def move(self, checkerId, result):
-        checkerToMove = self.checkers[checkerId]
+
+    def getChecker(self, checkerId):
+        return self.checkers[checkerId]
+
+    def getInitialPosition(self):
+        return self.initialPosition
+
+    def move(self, checkerToMove, result):
 
         print "Moving " + str(checkerToMove.getColor()) + \
               " checker: " + str(checkerToMove)
@@ -45,5 +55,7 @@ class Player:
         print "Moved " + str(checkerToMove) + \
               " " + str(checkerToMove.getColor()) + \
               " to position " + str(checkerToMove.getPosition())
+
+        return checkerToMove.getPosition()
 
 
