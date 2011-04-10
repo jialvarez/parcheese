@@ -22,12 +22,9 @@ import square
 
 class Player:
 
-    def __init__(self, login, color, initialPosition):
+    def __init__(self, login, color):
         # login of player
         self.login = login
-
-        # initial position (in square) for one checker
-        self.initialPosition = initialPosition
 
         # list comprehension for getting the checkers list
         self.checkers = [checker.Checker(color) for chk in range(4)]
@@ -42,9 +39,6 @@ class Player:
     def getChecker(self, checkerId):
         return self.checkers[checkerId]
 
-    def getInitialPosition(self):
-        return self.initialPosition
-
     def move(self, checkerToMove, result):
 
         print "Moving " + str(checkerToMove.getColor()) + \
@@ -57,5 +51,3 @@ class Player:
               " to position " + str(checkerToMove.getPosition())
 
         return checkerToMove.getPosition()
-
-

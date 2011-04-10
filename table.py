@@ -38,11 +38,20 @@ class Table:
             self.squares.append(square.Square(key, table_squares.get(key)))
 
         for player in players:
+            # get the first checker and put in game
             firstChecker = player.getCheckers()[0]
-            checkerInitialPos = player.getInitialPosition()
+
+            # get initial position for this first checker
+            checkerInitialPos = firstChecker.getInitialPosition()
+
+            # move to the initial position (1, 22, 39 or 56),
+            # depending on the color of the checker
             player.move(firstChecker, checkerInitialPos)
+
+            # add the checker to its initial square
             _square = self.squares[checkerInitialPos]
             _square.addChecker(firstChecker)
+
             print "I'm square " + str(_square.getSquareId()) + " and I have " + \
                   "this checkers in me: " + str(_square.getCheckers())
 

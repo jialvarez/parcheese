@@ -17,19 +17,38 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-
 class Checker:
     """ Class that represents the checker in game """
 
     def __init__(self, color):
         self.color = color
-        self.position = 0
+
+        if color == 'yellow':
+            self.initialPosition = 1
+            self.lastPosition = 68
+        elif color == 'blue':
+            self.initialPosition = 22
+            self.lastPosition = 17
+        elif color == 'red':
+            self.initialPosition = 39
+            self.lastPosition = 34
+        elif color == 'blue':
+            self.initialPosition = 56
+            self.lastPosition = 51
+
+        self.currentPosition = 0
     
     def getColor(self):
         return self.color
 
     def move(self, diceResult):
-        self.position += diceResult
+        self.currentPosition += diceResult
 
     def getPosition(self):
-        return self.position
+        return self.currentPosition
+
+    def getInitialPosition(self):
+        return self.initialPosition
+
+    def getLastPosition(self):
+        return self.lastPosition
