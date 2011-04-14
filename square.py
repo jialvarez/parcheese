@@ -19,12 +19,13 @@
 
 class Square:
 
-    def __init__(self, squareId, position):
+    def __init__(self, squareId, position, secure):
         self.squareId = squareId
         self.position = position
         self.checkerQty = 0
         self.locked = False
         self.checkers = [] 
+        self.isSecure = secure
 
     def setLocked(self):
         self.locked = not self.locked

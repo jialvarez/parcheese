@@ -20,6 +20,7 @@
 import dice
 import square
 import checker
+import table
 
 class Table:
 
@@ -31,11 +32,17 @@ class Table:
         self.dice = dice.Dice()
 
         # construct game table with 101 squares
-        from table_squares import table_squares
         self.squares = []
 
         for key in table_squares:
-            self.squares.append(square.Square(key, table_squares.get(key)))
+            _secured = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68]
+
+            if key in _secured:
+                _isSecure = True
+            else:
+                _isSecure = False
+
+            self.squares.append(square.Square(key, table_squares.get(key), _isSecure))
 
         for player in players:
             # get the first checker and put in game
