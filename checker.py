@@ -24,7 +24,7 @@ class Checker:
         self.color = color
 
         if color == 'yellow':
-            self.initialPosition = 1
+            self.initialPosition = 5
             self.lastPosition = 68
         elif color == 'blue':
             self.initialPosition = 22
@@ -37,12 +37,17 @@ class Checker:
             self.lastPosition = 51
 
         self.currentPosition = 0
+
+        self.atHome = False
+
+        self.isInNirvana = False
     
     def getColor(self):
         return self.color
 
-    def move(self, diceResult):
-        self.currentPosition += diceResult
+    def move(self, result):
+        self.currentPosition = self.currentPosition + result \
+                if self.atHome == False else result
 
     def getPosition(self):
         return self.currentPosition
@@ -52,3 +57,15 @@ class Checker:
 
     def getLastPosition(self):
         return self.lastPosition
+
+    def isAtHome(self):
+        return self.atHome
+
+    def setAtHome(self):
+        self.atHome = True
+
+    def inNirvana(self):
+        return self.isInNirvana
+
+    def setInNirvana(self):
+        self.isInNirvana = True

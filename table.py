@@ -21,6 +21,8 @@ import dice
 import square
 import checker
 import table
+from table_squares import tableSquares, yellowSquares, greenSquares, \
+        redSquares, blueSquares
 
 class Table:
 
@@ -31,20 +33,53 @@ class Table:
         # get the dice
         self.dice = dice.Dice()
 
-        # construct game table with 101 squares
+        # construct game table with 68 squares + specific for each color
         self.squares = []
+        self.specialSquares = []
+        
+        # 0: yellow, 1: blue, 2: red, 3: green
+        self.specialYSquares = []
+        self.specialBSquares = []
+        self.specialRSquares = []
+        self.specialGSquares = []
 
-        for key in table_squares:
+        self.fillTableSquares()
+
+        # get players in game
+        self.getPlayers()
+
+
+    def fillTableSquares(self):
+
+        for key in tableSquares:
             _secured = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68]
+            _isSecure = key in _secured and True or False
+            self.squares.append(square.Square(key, \
+                    tableSquares.get(key), _isSecure))
 
-            if key in _secured:
-                _isSecure = True
-            else:
-                _isSecure = False
+        # four different paths for four colors :)
+        for yellowKey in yellowSquares:
+            self.specialYSquares.append(square.Square(yellowKey, \
+                    yellowSquares.get(yellowKey), True))
 
-            self.squares.append(square.Square(key, table_squares.get(key), _isSecure))
+        print self.specialYSquares
 
-        for player in players:
+        for blueKey in blueSquares:
+            self.specialBSquares.append(square.Square(blueKey, \
+                    blueSquares.get(blueKey), True))
+
+        for redKey in redSquares:
+            self.specialRSquares.append(square.Square(redKey, \
+                    redSquares.get(redKey), True))
+
+        for greenKey in greenSquares:
+            self.specialGSquares.append(square.Square(greenKey, \
+                    greenSquares.get(greenKey), True))
+
+
+    def getPlayers(self):
+
+        for player in self.players:
             # get the first checker and put in game
             firstChecker = player.getCheckers()[0]
 
@@ -68,28 +103,106 @@ class Table:
         # get checker to move
         checkerToMove = player.getChecker(checkerId)
 
+        if checkerToMove.inNirvana() == True:
+              print "THESE CHECKER IS IN NIRVANA!"
+              return
+
+        checkerColor = checkerToMove.getColor()
+    
         # throw the dice!
         result = self.dice.throwDice()
 
         print "\nPlayer " + str(player.getLogin()) + \
-                          " gets " + str(result)
+                          " gets " + str(result) + \
+                          " with last position " + \
+                          str(player.getLastCheckerPosition())
 
+        # get position to leave
         oldCheckerPosition = checkerToMove.getPosition()
+        print "oldcheckerpos: " + str(oldCheckerPosition)
 
-        _square = self.squares[oldCheckerPosition]
+        # get checkers in square to leave
+        if checkerToMove.isAtHome() == False:
+            _square = self.getSquareToAddChecker(None, oldCheckerPosition)
+        else:
+            _square = self.getSquareToAddChecker(checkerColor, oldCheckerPosition)
+
         _squares = _square.getCheckers()
         print "square " + str(oldCheckerPosition) + " before: " + str(_squares)
+
+        # pop this checker from square to leave
         if checkerToMove in _squares:
             _squares.pop(_squares.index(checkerToMove))
             
         print "square " + str(oldCheckerPosition) + " after: " + str(_squares)
 
-        print "Checker " + str(checkerToMove) + " leaves position " + str(oldCheckerPosition)
-        newCheckerPosition = player.move(checkerToMove, result)
+        print "Checker " + str(checkerToMove) + " leaves position " + \
+                str(oldCheckerPosition)
 
-        _square = self.squares[newCheckerPosition]
+        # get last checker position
+        lastCheckerPosition = player.getLastCheckerPosition()
+
+        print "yeah: " + str((oldCheckerPosition + result) - lastCheckerPosition)
+
+        _newPosition = oldCheckerPosition + result
+
+        if checkerToMove.isAtHome() == False:
+            _diff = _newPosition - lastCheckerPosition
+        else:
+            _diff = _newPosition
+
+        # move to new position and get it
+
+        print "new position: " + str(_newPosition)
+        print "diff: " + str(_diff)
+
+        if checkerToMove.isAtHome() == True and _newPosition > 8:
+              print "YOU CAN'T MOVE THE CHECKER!"
+              return
+
+        # see if we are at home squares
+        if checkerToMove.isAtHome() == False:
+            # first time we enter at home
+            if _newPosition > lastCheckerPosition:
+                checkerToMove.setAtHome() 
+                newCheckerPosition = player.move(checkerToMove, _diff)
+
+                _square = self.getSquareToAddChecker(checkerColor, _diff)
+
+                print "new checker position1: " + str(newCheckerPosition)
+            else:
+                newCheckerPosition = player.move(checkerToMove, result)
+                print "new checker position2: " + str(newCheckerPosition)
+                _square = self.getSquareToAddChecker(None, newCheckerPosition)
+        else:
+            newCheckerPosition = player.move(checkerToMove, _diff)
+            checkerColor = checkerToMove.getColor()
+            _square = self.getSquareToAddChecker(checkerColor, _diff)
+            print "new checker position3: " + str(newCheckerPosition)
+
         _square.addChecker(checkerToMove)
 
         print "I'm square " + str(_square.getSquareId()) + " and I have " + \
               "this checkers in me: " + str(_square.getCheckers())
+
+        if checkerToMove.isAtHome() == True and _newPosition == 8:
+            checkerToMove.setInNirvana()
+            print "THESE CHECKER IS AT HOME!"
+              
+
+    def getSquareToAddChecker(self, color, checkerPosition):
+
+        print "received: " + str(checkerPosition)
+
+        if color is None:
+            return self.squares[checkerPosition]
+        else:
+            if color == 'yellow': 
+                return self.specialYSquares[checkerPosition-1]
+            if color == 'red': 
+                return self.specialRSquares[checkerPosition-1]
+            if color == 'blue': 
+                return self.specialBSquares[checkerPosition-1]
+            if color == 'green': 
+                return self.specialGSquares[checkerPosition-1]
 

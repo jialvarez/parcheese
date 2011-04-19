@@ -25,4 +25,4 @@ class Dice:
         pass
 
     def throwDice(self):
-        return random.randint(2, 12) 
+        return random.randint(1, 6) 

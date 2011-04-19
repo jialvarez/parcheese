@@ -39,6 +39,9 @@ class Player:
     def getChecker(self, checkerId):
         return self.checkers[checkerId]
 
+    def getLastCheckerPosition(self):
+        return self.checkers[0].getLastPosition()
+
     def move(self, checkerToMove, result):
 
         print "Moving " + str(checkerToMove.getColor()) + \

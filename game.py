@@ -40,8 +40,6 @@ myGameTable = startGame.getGameTable()
 
 # Testing players. This must be done with pygame and using mouse.
 # Example: moves player 0, checker 0
-myGameTable.playerMoves(startGame.getPlayer(0), 0)
-
-# New movement for player 0, checker 0
-myGameTable.playerMoves(startGame.getPlayer(0), 0)
+while True:
+    myGameTable.playerMoves(startGame.getPlayer(0), 0)
 
