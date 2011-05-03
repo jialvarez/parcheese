@@ -156,7 +156,7 @@ class Table:
         # see if we are at home squares
         if checkerToMove.isAtHome() == False:
             # first time we enter at home
-            if _newPosition > lastCheckerPosition:
+            if checkerToMove.isEnteringAtHome(_newPosition) == True:
                 checkerToMove.setAtHome() 
                 newCheckerPosition = player.move(checkerToMove, _diff)
 

@@ -41,6 +41,16 @@ class Checker:
         self.atHome = False
 
         self.isInNirvana = False
+
+    def isEnteringAtHome(self, newPosition):
+        if self.color is not 'yellow':
+            if newPosition > self.lastPosition and \
+                    newPosition < self.initialPosition:
+                        return True
+        elif newPosition > 68:
+            return True
+
+        return False
     
     def getColor(self):
         return self.color
