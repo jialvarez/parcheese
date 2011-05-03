@@ -1,0 +1,232 @@
+[<checker.Checker instance at 0xb730be6c>, <checker.Checker instance at 0xb730beac>, <checker.Checker instance at 0xb730becc>, <checker.Checker instance at 0xb730beec>]
+[<square.Square instance at 0xb73110cc>, <square.Square instance at 0xb731110c>, <square.Square instance at 0xb731114c>, <square.Square instance at 0xb731118c>, <square.Square instance at 0xb73111cc>, <square.Square instance at 0xb731120c>, <square.Square instance at 0xb731124c>, <square.Square instance at 0xb731128c>]
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 5
+I'm square 5 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 3 with last position 68
+square 5 before: [<checker.Checker instance at 0xb730be6c>]
+square 5 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 5
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 8
+new checker position2: 8
+I'm square 8 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 1 with last position 68
+square 8 before: [<checker.Checker instance at 0xb730be6c>]
+square 8 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 8
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 9
+new checker position2: 9
+I'm square 9 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 6 with last position 68
+square 9 before: [<checker.Checker instance at 0xb730be6c>]
+square 9 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 9
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 15
+new checker position2: 15
+I'm square 15 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+square 15 before: [<checker.Checker instance at 0xb730be6c>]
+square 15 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 15
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 20
+new checker position2: 20
+I'm square 20 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 2 with last position 68
+square 20 before: [<checker.Checker instance at 0xb730be6c>]
+square 20 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 20
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 22
+new checker position2: 22
+I'm square 22 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 1 with last position 68
+square 22 before: [<checker.Checker instance at 0xb730be6c>]
+square 22 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 22
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 23
+new checker position2: 23
+I'm square 23 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+square 23 before: [<checker.Checker instance at 0xb730be6c>]
+square 23 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 23
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 28
+new checker position2: 28
+I'm square 28 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 2 with last position 68
+square 28 before: [<checker.Checker instance at 0xb730be6c>]
+square 28 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 28
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 30
+new checker position2: 30
+I'm square 30 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 6 with last position 68
+square 30 before: [<checker.Checker instance at 0xb730be6c>]
+square 30 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 30
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 36
+new checker position2: 36
+I'm square 36 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 6 with last position 68
+square 36 before: [<checker.Checker instance at 0xb730be6c>]
+square 36 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 36
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 42
+new checker position2: 42
+I'm square 42 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+square 42 before: [<checker.Checker instance at 0xb730be6c>]
+square 42 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 42
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 47
+new checker position2: 47
+I'm square 47 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 4 with last position 68
+square 47 before: [<checker.Checker instance at 0xb730be6c>]
+square 47 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 47
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 51
+new checker position2: 51
+I'm square 51 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 4 with last position 68
+square 51 before: [<checker.Checker instance at 0xb730be6c>]
+square 51 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 51
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 55
+new checker position2: 55
+I'm square 55 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 2 with last position 68
+square 55 before: [<checker.Checker instance at 0xb730be6c>]
+square 55 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 55
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 57
+new checker position2: 57
+I'm square 57 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+square 57 before: [<checker.Checker instance at 0xb730be6c>]
+square 57 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 57
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 62
+new checker position2: 62
+I'm square 62 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 1 with last position 68
+square 62 before: [<checker.Checker instance at 0xb730be6c>]
+square 62 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 62
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 63
+new checker position2: 63
+I'm square 63 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 1 with last position 68
+square 63 before: [<checker.Checker instance at 0xb730be6c>]
+square 63 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 63
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 64
+new checker position2: 64
+I'm square 64 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 1 with last position 68
+square 64 before: [<checker.Checker instance at 0xb730be6c>]
+square 64 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 64
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 65
+new checker position2: 65
+I'm square 65 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 2 with last position 68
+square 65 before: [<checker.Checker instance at 0xb730be6c>]
+square 65 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 65
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 67
+new checker position2: 67
+I'm square 67 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 2 with last position 68
+square 67 before: [<checker.Checker instance at 0xb730be6c>]
+square 67 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 67
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 1
+new checker position1: 1
+I'm square 0 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+square 1 before: [<checker.Checker instance at 0xb730be6c>]
+square 1 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 1
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 6
+new checker position3: 6
+I'm square 5 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 5 with last position 68
+YOU CAN'T MOVE THE CHECKER!
+
+Player neonigma gets 5 with last position 68
+YOU CAN'T MOVE THE CHECKER!
+
+Player neonigma gets 1 with last position 68
+square 6 before: [<checker.Checker instance at 0xb730be6c>]
+square 6 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 6
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 7
+new checker position3: 7
+I'm square 6 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+
+Player neonigma gets 4 with last position 68
+YOU CAN'T MOVE THE CHECKER!
+
+Player neonigma gets 5 with last position 68
+YOU CAN'T MOVE THE CHECKER!
+
+Player neonigma gets 6 with last position 68
+YOU CAN'T MOVE THE CHECKER!
+
+Player neonigma gets 1 with last position 68
+square 7 before: [<checker.Checker instance at 0xb730be6c>]
+square 7 after: []
+Checker <checker.Checker instance at 0xb730be6c> leaves position 7
+Moving yellow checker: <checker.Checker instance at 0xb730be6c>
+Moved <checker.Checker instance at 0xb730be6c> yellow to position 8
+new checker position3: 8
+I'm square 7 and I have this checkers in me: [<checker.Checker instance at 0xb730be6c>]
+THESE CHECKER IS AT HOME!
+THESE CHECKER IS IN NIRVANA!
+THESE CHECKER IS IN NIRVANA!
+THESE CHECKER IS IN NIRVANA!
+THESE CHECKER IS IN NIRVANA!

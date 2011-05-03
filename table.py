@@ -119,7 +119,13 @@ class Table:
 
         # get position to leave
         oldCheckerPosition = checkerToMove.getPosition()
-        print "oldcheckerpos: " + str(oldCheckerPosition)
+
+        _newPosition = oldCheckerPosition + result
+
+        # move to new position and get it
+        if checkerToMove.isAtHome() == True and _newPosition > 8:
+              print "YOU CAN'T MOVE THE CHECKER!"
+              return
 
         # get checkers in square to leave
         if checkerToMove.isAtHome() == False:
@@ -142,23 +148,10 @@ class Table:
         # get last checker position
         lastCheckerPosition = player.getLastCheckerPosition()
 
-        print "yeah: " + str((oldCheckerPosition + result) - lastCheckerPosition)
-
-        _newPosition = oldCheckerPosition + result
-
         if checkerToMove.isAtHome() == False:
             _diff = _newPosition - lastCheckerPosition
         else:
             _diff = _newPosition
-
-        # move to new position and get it
-
-        print "new position: " + str(_newPosition)
-        print "diff: " + str(_diff)
-
-        if checkerToMove.isAtHome() == True and _newPosition > 8:
-              print "YOU CAN'T MOVE THE CHECKER!"
-              return
 
         # see if we are at home squares
         if checkerToMove.isAtHome() == False:
@@ -191,8 +184,6 @@ class Table:
               
 
     def getSquareToAddChecker(self, color, checkerPosition):
-
-        print "received: " + str(checkerPosition)
 
         if color is None:
             return self.squares[checkerPosition]
