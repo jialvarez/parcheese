@@ -21,7 +21,7 @@ import random
 
 class Dice:
 
-    def __init(self):
+    def __init__(self):
         pass
 
     def throwDice(self):
