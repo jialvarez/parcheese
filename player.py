@@ -30,6 +30,15 @@ class Player:
         self.checkers = [checker.Checker(color) for chk in range(4)]
         print self.checkers
 
+        #when throw dice, times that six is obtained as result consecutively
+        self.reswassix = 0
+
+    def getResWasSix(self):
+        return self.reswassix
+
+    def setResWasSix(self):
+        self.reswassix = self.reswassix + 1
+
     def getLogin(self):
         return self.login
 
