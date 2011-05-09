@@ -1,0 +1,18 @@
+### PLAYER.PY ###
+(modulo del jugador)
+
+*este fichero contiene métodos relacionados con el "jugador". Existirán tantos objetos de la clase Player, como jugadores esten en la partida (entre 1 y 4).
+*NOTA: utiliza los modulos "checker" y "square"
+
+
+## Clases ##
+Solo existe la clase jugador, con los siguientes métodos...
+
+## Constructor ##
+Para construir un objeto de la clase Player debe pasarse "login" (nombre de jugador) y "color" (color con el que jugará).
+
+Esta clase dispone de un atributo "reswassix", que indica el número de veces que este jugador a obtenido 6 de forma consecutiva.
+
+## Metodos ##
+getResWasSix()
+__Devuelve el valor actual de "reswassix", esto es, devuelve el número de veces que el jugador ha obtenido 6 de forma consecutiva. Cuando es igual a 3, una de las fichas es enviada a la casilla de inicial.

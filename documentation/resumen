@@ -1,0 +1,45 @@
+DOCUMENTACION
+=============
+Autor: Edorta García
+Creación: 9/may/11
+Ultima modif.: 9/may/11
+
+
+### Introducción ###
+"parcheese" es un pequeño proyecto para la creación de un parchis para sistemas GNU/Linux, utilizando Python y Pygame.
+
+NOTA: en un futuro se prevee dotar de funcionalidades necesarias al programa para que resulte accesible a personas discapacidades.
+
+### Estructura ###
+Actualmente, el programa esta organizado de la siguiente manera:
+	*checker.py
+	*dice.py
+	*game.py
+	*player.py
+	*square.py
+	*table.py
+	*table_squares.py
+
+Asimismo, existe el directorio "data", donde se vuelca el log del programa.
+
+### CHECKER.PY ###
+(modulo de las fichas)
+
+### DICE.PY ###
+(modulo del dado)
+
+### GAME.PY ###
+(modulo del partida)
+
+### PLAYER.PY ###
+(modulo del jugador)
+
+### SQUARE.PY ###
+(modulo de casilla)
+
+### TABLE.PY ###
+(modulo del tablero)
+
+### TABLE_SQUARES.PY ###
+(npi)
+

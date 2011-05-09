@@ -1,0 +1,12 @@
+### DICE.PY ###
+(modulo del dado)
+
+*este fichero contiene métodos relacionados con el dado del juego.
+*NOTA: utiliza el modulo "random"
+
+
+## Clases ##
+## Constructor ##
+## Metodos ##
+throwDice()
+__Genera un número entre 1 y 6, y devuelve el valor obtenido.
