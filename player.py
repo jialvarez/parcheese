@@ -37,6 +37,10 @@ class Player:
         return self.reswassix
 
     def setResWasSix(self):
+        # this may receive some kind of parameter to:
+        #      a) add 1 to the current value of reswassix var
+        #         or,
+        #      b) set the var to 0 again (reinitialize it)
         self.reswassix = self.reswassix + 1
 
     def getLogin(self):
