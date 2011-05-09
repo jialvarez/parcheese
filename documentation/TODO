@@ -1,11 +1,11 @@
 ### TODO LIST ###
 
 #DOCUMENTACIÓN
-	*Grafo con la estructura de ficheros/modulo y como se relacionan... (Xmind?)
+    *Grafo con la estructura de ficheros/modulo y como se relacionan... (Xmind?)
 
 
 #FUNCIONALIDADES
-	*Version del juego para invidentes
-	*Cuando se obtiene 6, 3 veces consecutivas, enviar una de las fichas a la salida.
-	*Si el jugador obtiene un 5, y dispone de fichas en la casa, sacar una de estas fichas automáticamente, en caso de que sea posible.
-
+    *Version del juego para invidentes
+    *Cuando se obtiene 6, 3 veces consecutivas, enviar una de las fichas a la salida.
+    *Si el jugador obtiene un 5, y dispone de fichas en la casa, sacar una de estas fichas automáticamente, en caso de que sea posible.
+    *
