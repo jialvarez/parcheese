@@ -1,0 +1,20 @@
+## CHECKER.PY ##
+(modulo de ficha)
+Este modulo contiene los metodos relacionados con las fichas... existiran 4 objetos "checker" por cada jugador.
+
+## Modulos ##
+--
+
+## Clases ##
+Solo existe la clase "checker", que contiene los metodos necesarios para tratar con los objeto ficha de los distintos jugadores.
+
+## Constructor ##
+El constructor de "checker" se utiliza pasandole el color de la ficha que deberá ser:
+    *yellow
+    *red
+    *blue
+    *green
+
+## Metodos ##
+nombre()
+__descripcion

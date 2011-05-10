@@ -32,7 +32,7 @@ class Checker:
         elif color == 'red':
             self.initialPosition = 39
             self.lastPosition = 34
-        elif color == 'blue':
+        elif color == 'green':
             self.initialPosition = 56
             self.lastPosition = 51
 
