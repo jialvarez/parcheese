@@ -110,22 +110,23 @@ class Table:
         checkerColor = checkerToMove.getColor()
     
         # throw the dice!
-        result = self.dice.throwDice()
+        #for testint... result = self.dice.throwDice()
+        result = 6
 
         # checking how many times player has obtained six as result consecutively
         if result == 6:
             player.setResWasSix()
+            print "::::EDORTIX::::" + checkerToMove.initialPosition
 
             if player.getResWasSix() == 3:
                 print "D'oh! " + str(player.getLogin()) + \
                         " gets three times six as result. \
-                        Go to home square"
-                #_newPosition = checkerToMove.initialPosition
+                        go to home square, looser!"
+                _newPosition = checkerToMove.initialPosition
                 #here checker have to be moved to initial position
                 return
         else:
-            pass
-            #here var reswassix mas be setted to 0 again
+            player.setResWasSix(reinitialize = True)
 
         print "\nPlayer " + str(player.getLogin()) + \
                           " gets " + str(result) + \

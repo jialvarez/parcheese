@@ -31,17 +31,15 @@ class Player:
         print self.checkers
 
         #when throw dice, times that six is obtained as result consecutively
-        self.reswassix = 0
+        self.resWasSix = 0
 
     def getResWasSix(self):
-        return self.reswassix
+        return self.resWasSix
 
-    def setResWasSix(self):
-        # this may receive some kind of parameter to:
-        #      a) add 1 to the current value of reswassix var
-        #         or,
-        #      b) set the var to 0 again (reinitialize it)
-        self.reswassix = self.reswassix + 1
+    def setResWasSix(self, reinitialize = True):
+        ''' if the function receive True, ResWasSix is reinitialized '''
+        self.resWasSix = 0 if reinitialize == True \
+                else self.resWasSix = self.resWasSix + 1
 
     def getLogin(self):
         return self.login
