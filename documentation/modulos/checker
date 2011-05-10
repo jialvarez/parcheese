@@ -9,12 +9,22 @@ Este modulo contiene los metodos relacionados con las fichas... existiran 4 obje
 Solo existe la clase "checker", que contiene los metodos necesarios para tratar con los objeto ficha de los distintos jugadores.
 
 ## Constructor ##
-El constructor de "checker" se utiliza pasandole el color de la ficha que deberá ser:
+El constructor de "checker" se utiliza pasandole el color de la ficha, que deberá ser:
     *yellow
     *red
     *blue
     *green
 
+Ademas, los objetos "checker" disponen de los siguientes atributos:
+    *color-> el color que se le pasa al constructor
+    *currentPosition-> (por defecto, "0"). id de la casilla actual en la que se encuetra la ficha
+    *atHome-> (por defecto, "false"). indica si la ficha se encuentra en una casilla segura.
+    *isInNirvana-> (por defecto, "false"). indica si la ficha ha llegado a la ultima casilla de la escalera.
+    *initialPosition->(varia en funcion de "color"). id de la casilla en la que la ficha entra en el tablero.
+    *lasPosition->(varia en funcion de "color"). de las casillas "comunes a todos los jugadores" (esto es, cualquiera salvo la escalera de cada color), id de la ultima casilla antes de entrar a la escalera.
+
 ## Metodos ##
-nombre()
-__descripcion
+isEnteringAtHome()
+move()
+
+
