@@ -52,15 +52,18 @@ class Player:
     def getChecker(self, checkerId):
         return self.checkers[checkerId]
 
+    def getInitialCheckerPosition(self):
+        return self.checkers[0].getInitialPosition()
+
     def getLastCheckerPosition(self):
         return self.checkers[0].getLastPosition()
 
-    def move(self, checkerToMove, result):
+    def move(self, checkerToMove, result, passSixtyEight=False):
 
         print "Moving " + str(checkerToMove.getColor()) + \
               " checker: " + str(checkerToMove)
 
-        checkerToMove.move(result)
+        checkerToMove.move(result, passSixtyEight)
 
         print "Moved " + str(checkerToMove) + \
               " " + str(checkerToMove.getColor()) + \

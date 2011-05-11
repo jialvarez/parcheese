@@ -160,18 +160,22 @@ class Table:
         print "Checker " + str(checkerToMove) + " leaves position " + \
                 str(oldCheckerPosition)
 
-        # get last checker position
+        # get initial and last checker position
+        initialCheckerPosition = player.getInitialCheckerPosition()
         lastCheckerPosition = player.getLastCheckerPosition()
 
-        if checkerToMove.isAtHome() == False:
-            _diff = _newPosition - lastCheckerPosition
-        else:
-            _diff = _newPosition
+#        if checkerToMove.isAtHome() == False or (checkerColor 
+#                is not 'yellow' and _newPosition > 68):
+#            _diff = _newPosition - lastCheckerPosition
+#        else:
+#            _diff = _newPosition
 
         # see if we are at home squares
         if checkerToMove.isAtHome() == False:
             # first time we enter at home
             if checkerToMove.isEnteringAtHome(_newPosition) == True:
+                _diff = _newPosition - lastCheckerPosition
+
                 checkerToMove.setAtHome() 
                 newCheckerPosition = player.move(checkerToMove, _diff)
 
@@ -179,12 +183,25 @@ class Table:
 
                 print "new checker position1: " + str(newCheckerPosition)
             else:
-                newCheckerPosition = player.move(checkerToMove, result)
+                if checkerColor is not 'yellow' and _newPosition > 68:
+                    _diff = _newPosition - 68
+                    passSixtyEight = True
+                else:
+                    _diff = result
+                    passSixtyEight = False
+
+                print "_new position: " + str(_newPosition)
+                print "result: " + str(result)
+                print "diff: " + str(_diff)
+
+                newCheckerPosition = player.move(checkerToMove, _diff, passSixtyEight)
+
                 print "new checker position2: " + str(newCheckerPosition)
                 _square = self.getSquareToAddChecker(None, newCheckerPosition)
         else:
+            _diff = _newPosition
+
             newCheckerPosition = player.move(checkerToMove, _diff)
-            checkerColor = checkerToMove.getColor()
             _square = self.getSquareToAddChecker(checkerColor, _diff)
             print "new checker position3: " + str(newCheckerPosition)
 

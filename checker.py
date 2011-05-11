@@ -47,7 +47,7 @@ class Checker:
             if newPosition > self.lastPosition and \
                     newPosition < self.initialPosition:
                         return True
-        elif newPosition > 68:
+        elif self.color is 'yellow' and newPosition > 68:
             return True
 
         return False
@@ -55,9 +55,15 @@ class Checker:
     def getColor(self):
         return self.color
 
-    def move(self, result):
-        self.currentPosition = self.currentPosition + result \
-                if self.atHome == False else result
+    def move(self, result, passSixtyEight=False):
+        #self.currentPosition = self.currentPosition + result \
+        #        if self.atHome == False else result
+        if self.color is not 'yellow' and passSixtyEight is True:
+                    self.currentPosition = result
+        elif self.atHome == False:
+            self.currentPosition = self.currentPosition + result
+        else:
+            self.currentPosition = result
 
     def getPosition(self):
         return self.currentPosition
