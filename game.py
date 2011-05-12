@@ -24,7 +24,7 @@ class Game:
 
     def __init__(self):
         # here comes pygame window, config rules, etc...
-        self.players = [player.Player('neonigma', 'yellow')]
+        self.players = [player.Player('neonigma', 'green')]
         self.gameTable = table.Table(self.players)
 
     def getPlayer(self, playerIndex):

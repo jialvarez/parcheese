@@ -30,16 +30,20 @@ class Player:
         self.checkers = [checker.Checker(color) for chk in range(4)]
         print self.checkers
 
-        #when throw dice, times that six is obtained as result consecutively
+        #when throw dice, times that player has obtained 6 as result consecutively
         self.resWasSix = 0
 
     def getResWasSix(self):
         return self.resWasSix
 
-    def setResWasSix(self, reinitialize = True):
-        ''' if the function receive True, ResWasSix is reinitialized '''
-        self.resWasSix = 0 if reinitialize == True \
-                else self.resWasSix = self.resWasSix + 1
+    def setResWasSix(self, reinitialize = False):
+        ''' Set "resWasSix". You can increment or reinitialize it (call the \
+                function sending to it the "reinitilize" parametre '''
+        # if the function receive reinitilize = True, resWasSix is reinitialized
+        if reinitialize == True:
+            self.resWasSix = 0
+        else: #if not, resWasSix is incremented
+            self.resWasSix = self.resWasSix + 1
 
     def getLogin(self):
         return self.login
@@ -50,15 +54,18 @@ class Player:
     def getChecker(self, checkerId):
         return self.checkers[checkerId]
 
+    def getInitialCheckerPosition(self):
+        return self.checkers[0].getInitialPosition()
+
     def getLastCheckerPosition(self):
         return self.checkers[0].getLastPosition()
 
-    def move(self, checkerToMove, result):
+    def move(self, checkerToMove, result, passSixtyEight=False):
 
         print "Moving " + str(checkerToMove.getColor()) + \
               " checker: " + str(checkerToMove)
 
-        checkerToMove.move(result)
+        checkerToMove.move(result, passSixtyEight)
 
         print "Moved " + str(checkerToMove) + \
               " " + str(checkerToMove.getColor()) + \
