@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -24,6 +24,7 @@ import table
 from table_squares import tableSquares, yellowSquares, greenSquares, \
         redSquares, blueSquares
 
+
 class Table:
 
     def __init__(self, players):
@@ -36,7 +37,7 @@ class Table:
         # construct game table with 68 squares + specific for each color
         self.squares = []
         self.specialSquares = []
-        
+
         # 0: yellow, 1: blue, 2: red, 3: green
         self.specialYSquares = []
         self.specialBSquares = []
@@ -47,7 +48,6 @@ class Table:
 
         # get players in game
         self.getPlayers()
-
 
     def fillTableSquares(self):
 
@@ -76,7 +76,6 @@ class Table:
             self.specialGSquares.append(square.Square(greenKey, \
                     greenSquares.get(greenKey), True))
 
-
     def getPlayers(self):
 
         for player in self.players:
@@ -94,37 +93,43 @@ class Table:
             square = self.squares[checkerInitialPos]
             square.addChecker(firstChecker)
 
-            print "I'm square " + str(square.getSquareId()) + " and I have " + \
+            print "I'm square " + str(square.getSquareId()) + " and I have " +\
                   "this checkers in me: " + str(square.getCheckers())
 
-
     # the checker must be indicated by sending the mouse selection
+
     def playerMoves(self, player, checkerId):
         # get checker to move
         checkerToMove = player.getChecker(checkerId)
 
         if checkerToMove.inNirvana() == True:
-              print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " IS IN NIRVANA!"
-              return
+            print "CHECKER " + str(checkerId) + " OF " + \
+            str(player.getLogin()) + " IS IN NIRVANA!"
+            return
 
         checkerColor = checkerToMove.getColor()
-    
+
         # throw the dice!
         result = self.dice.throwDice()
-            
-        #result = 6 #___THIS is ::ONLY:: for test the next "if". this line will be removed soon.
-            
-        # checking how many times player has obtained six as result consecutively
-        if result == 6: #check if result was 6. If it was, increment counter var (resWasSix)
+
+        # result = 6 #___THIS is ::ONLY:: for test the next "if". this line
+        # will be removed soon.
+
+        # checking how many times player has obtained six as result
+        # consecutively
+        # check if result was 6. If it was, increment counter var (resWasSix)
+        if result == 6:
             player.setResWasSix() #increment counter
 
-            if player.getResWasSix() >= 3: #check if player has obtained 6 as result 3 times or more
+            #check if player has obtained 6 as result 3 times or more
+            if player.getResWasSix() >= 3:
                 #:::HERE checker have to be moved to initial position
                 print "D'oh!" #for testing
                 #newPosition = checkerToMove.initialPosition
                 return
-        else: #if result wasn't 6 reinitialize counter
-            player.setResWasSix(reinitialize = True)
+        # if result wasn't 6 reinitialize counter
+        else:
+            player.setResWasSix(reinitialize=True)
 
         print "\nPlayer " + str(player.getLogin()) + \
                           " gets " + str(result) + \
@@ -138,14 +143,16 @@ class Table:
 
         # move to new position and get it
         if checkerToMove.isAtHome() == True and newPosition > 8:
-              print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " CANNOT BE MOVED!"
-              return
+            print "CHECKER " + str(checkerId) + " OF " +
+            str(player.getLogin()) + " CANNOT BE MOVED!"
+            return
 
         # get checkers in square to leave
         if checkerToMove.isAtHome() == False:
             square = self.getSquareToAddChecker(None, oldCheckerPosition)
         else:
-            square = self.getSquareToAddChecker(checkerColor, oldCheckerPosition)
+            square = self.getSquareToAddChecker(checkerColor,
+              oldCheckerPosition)
 
         squares = square.getCheckers()
         print "square " + str(oldCheckerPosition) + " before: " + str(squares)
@@ -153,7 +160,7 @@ class Table:
         # pop this checker from square to leave
         if checkerToMove in squares:
             squares.pop(squares.index(checkerToMove))
-            
+
         print "square " + str(oldCheckerPosition) + " after: " + str(squares)
 
         print "Checker " + str(checkerToMove) + " leaves position " + \
@@ -163,7 +170,7 @@ class Table:
         initialCheckerPosition = player.getInitialCheckerPosition()
         lastCheckerPosition = player.getLastCheckerPosition()
 
-        # get square in new position 
+        # get square in new position
         square = self.getNewSquare(player, checkerToMove, newPosition, \
                               lastCheckerPosition, checkerColor, result)
 
@@ -174,8 +181,8 @@ class Table:
 
         if checkerToMove.isAtHome() == True and newPosition == 8:
             checkerToMove.setInNirvana()
-            print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " ENTERED AT HOME!"
-
+            print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin())
+            + " ENTERED AT HOME!"
 
     def getNewSquare(self, player, checkerToMove, newPosition, \
                      lastCheckerPosition, checkerColor, result):
@@ -185,10 +192,12 @@ class Table:
             if checkerToMove.isEnteringAtHome(newPosition) == True:
                 moveCheckerHere = newPosition - lastCheckerPosition
 
-                checkerToMove.setAtHome() 
-                newCheckerPosition = player.move(checkerToMove, moveCheckerHere)
+                checkerToMove.setAtHome()
+                newCheckerPosition = player.move(checkerToMove,
+                  moveCheckerHere)
 
-                return self.getSquareToAddChecker(checkerColor, moveCheckerHere)
+                return self.getSquareToAddChecker(checkerColor,
+                  moveCheckerHere)
             # normal case (normal squares in the board)
             else:
                 if checkerColor is not 'yellow' and newPosition > 68:
@@ -198,7 +207,8 @@ class Table:
                     moveCheckerHere = result
                     passSixtyEight = False
 
-                newCheckerPosition = player.move(checkerToMove, moveCheckerHere, passSixtyEight)
+                newCheckerPosition = player.move(checkerToMove,
+                  moveCheckerHere, passSixtyEight)
 
                 return self.getSquareToAddChecker(None, newCheckerPosition)
         # we are in home squares (from 1 to 8)
@@ -213,12 +223,11 @@ class Table:
         if color is None:
             return self.squares[checkerPosition]
         else:
-            if color == 'yellow': 
+            if color == 'yellow':
                 return self.specialYSquares[checkerPosition-1]
-            if color == 'red': 
+            if color == 'red':
                 return self.specialRSquares[checkerPosition-1]
-            if color == 'blue': 
+            if color == 'blue':
                 return self.specialBSquares[checkerPosition-1]
-            if color == 'green': 
+            if color == 'green':
                 return self.specialGSquares[checkerPosition-1]
-
