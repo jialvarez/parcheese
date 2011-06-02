@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -16,6 +16,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
+
 
 class Checker:
     """ Class that represents the checker in game """
@@ -51,7 +52,7 @@ class Checker:
             return True
 
         return False
-    
+
     def getColor(self):
         return self.color
 

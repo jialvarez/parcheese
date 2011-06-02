@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -19,10 +19,11 @@
 
 import random
 
+
 class Dice:
 
     def __init__(self):
         pass
 
     def throwDice(self):
-        return random.randint(1, 6) 
+        return random.randint(1, 6)

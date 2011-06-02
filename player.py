@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -20,6 +20,7 @@
 import checker
 import square
 
+
 class Player:
 
     def __init__(self, login, color):
@@ -30,16 +31,17 @@ class Player:
         self.checkers = [checker.Checker(color) for chk in range(4)]
         print self.checkers
 
-        #when throw dice, times that player has obtained 6 as result consecutively
+        # when throw dice, times that player has obtained 6 as result
+        # consecutively
         self.resWasSix = 0
 
     def getResWasSix(self):
         return self.resWasSix
 
-    def setResWasSix(self, reinitialize = False):
+    def setResWasSix(self, reinitialize=False):
         ''' Set "resWasSix". You can increment or reinitialize it (call the \
                 function sending to it the "reinitilize" parametre '''
-        # if the function receive reinitilize = True, resWasSix is reinitialized
+        # if the function receive reinitilize=True, resWasSix is reinitialized
         if reinitialize == True:
             self.resWasSix = 0
         else: #if not, resWasSix is incremented

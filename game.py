@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -20,6 +20,7 @@
 import table
 import player
 
+
 class Game:
 
     def __init__(self):
@@ -30,7 +31,7 @@ class Game:
 
     def getPlayer(self, playerIndex):
         return self.players[playerIndex]
-   
+
     def getGameTable(self):
         return self.gameTable
 
