@@ -91,11 +91,11 @@ class Table:
             player.move(firstChecker, checkerInitialPos)
 
             # add the checker to its initial square
-            _square = self.squares[checkerInitialPos]
-            _square.addChecker(firstChecker)
+            square = self.squares[checkerInitialPos]
+            square.addChecker(firstChecker)
 
-            print "I'm square " + str(_square.getSquareId()) + " and I have " + \
-                  "this checkers in me: " + str(_square.getCheckers())
+            print "I'm square " + str(square.getSquareId()) + " and I have " + \
+                  "this checkers in me: " + str(square.getCheckers())
 
 
     # the checker must be indicated by sending the mouse selection
@@ -121,7 +121,7 @@ class Table:
             if player.getResWasSix() >= 3: #check if player has obtained 6 as result 3 times or more
                 #:::HERE checker have to be moved to initial position
                 print "D'oh!" #for testing
-                #_newPosition = checkerToMove.initialPosition
+                #newPosition = checkerToMove.initialPosition
                 return
         else: #if result wasn't 6 reinitialize counter
             player.setResWasSix(reinitialize = True)
@@ -134,27 +134,27 @@ class Table:
         # get position to leave
         oldCheckerPosition = checkerToMove.getPosition()
 
-        _newPosition = oldCheckerPosition + result
+        newPosition = oldCheckerPosition + result
 
         # move to new position and get it
-        if checkerToMove.isAtHome() == True and _newPosition > 8:
+        if checkerToMove.isAtHome() == True and newPosition > 8:
               print "YOU CAN'T MOVE THE CHECKER!"
               return
 
         # get checkers in square to leave
         if checkerToMove.isAtHome() == False:
-            _square = self.getSquareToAddChecker(None, oldCheckerPosition)
+            square = self.getSquareToAddChecker(None, oldCheckerPosition)
         else:
-            _square = self.getSquareToAddChecker(checkerColor, oldCheckerPosition)
+            square = self.getSquareToAddChecker(checkerColor, oldCheckerPosition)
 
-        _squares = _square.getCheckers()
-        print "square " + str(oldCheckerPosition) + " before: " + str(_squares)
+        squares = square.getCheckers()
+        print "square " + str(oldCheckerPosition) + " before: " + str(squares)
 
         # pop this checker from square to leave
-        if checkerToMove in _squares:
-            _squares.pop(_squares.index(checkerToMove))
+        if checkerToMove in squares:
+            squares.pop(squares.index(checkerToMove))
             
-        print "square " + str(oldCheckerPosition) + " after: " + str(_squares)
+        print "square " + str(oldCheckerPosition) + " after: " + str(squares)
 
         print "Checker " + str(checkerToMove) + " leaves position " + \
                 str(oldCheckerPosition)
@@ -163,42 +163,50 @@ class Table:
         initialCheckerPosition = player.getInitialCheckerPosition()
         lastCheckerPosition = player.getLastCheckerPosition()
 
+        # get square in new position 
+        square = self.getNewSquare(player, checkerToMove, newPosition, \
+                              lastCheckerPosition, checkerColor, result)
+
+        square.addChecker(checkerToMove)
+
+        print "I'm square " + str(square.getSquareId()) + " and I have " + \
+              "this checkers in me: " + str(square.getCheckers())
+
+        if checkerToMove.isAtHome() == True and newPosition == 8:
+            checkerToMove.setInNirvana()
+            print "THESE CHECKER IS AT HOME!"
+
+
+    def getNewSquare(self, player, checkerToMove, newPosition, \
+                     lastCheckerPosition, checkerColor, result):
         # see if we are at home squares
         if checkerToMove.isAtHome() == False:
             # first time we enter at home
-            if checkerToMove.isEnteringAtHome(_newPosition) == True:
-                _diff = _newPosition - lastCheckerPosition
+            if checkerToMove.isEnteringAtHome(newPosition) == True:
+                diff = newPosition - lastCheckerPosition
 
                 checkerToMove.setAtHome() 
-                newCheckerPosition = player.move(checkerToMove, _diff)
+                newCheckerPosition = player.move(checkerToMove, diff)
 
-                _square = self.getSquareToAddChecker(checkerColor, _diff)
+                return self.getSquareToAddChecker(checkerColor, diff)
+            # normal case (normal squares in the board)
             else:
-                if checkerColor is not 'yellow' and _newPosition > 68:
-                    _diff = _newPosition - 68
+                if checkerColor is not 'yellow' and newPosition > 68:
+                    diff = newPosition - 68
                     passSixtyEight = True
                 else:
-                    _diff = result
+                    diff = result
                     passSixtyEight = False
 
-                newCheckerPosition = player.move(checkerToMove, _diff, passSixtyEight)
+                newCheckerPosition = player.move(checkerToMove, diff, passSixtyEight)
 
-                _square = self.getSquareToAddChecker(None, newCheckerPosition)
+                return self.getSquareToAddChecker(None, newCheckerPosition)
+        # we are in home squares (from 1 to 8)
         else:
-            _diff = _newPosition
+            diff = newPosition
 
-            newCheckerPosition = player.move(checkerToMove, _diff)
-            _square = self.getSquareToAddChecker(checkerColor, _diff)
-
-        _square.addChecker(checkerToMove)
-
-        print "I'm square " + str(_square.getSquareId()) + " and I have " + \
-              "this checkers in me: " + str(_square.getCheckers())
-
-        if checkerToMove.isAtHome() == True and _newPosition == 8:
-            checkerToMove.setInNirvana()
-            print "THESE CHECKER IS AT HOME!"
-              
+            newCheckerPosition = player.move(checkerToMove, diff)
+            return self.getSquareToAddChecker(checkerColor, diff)
 
     def getSquareToAddChecker(self, color, checkerPosition):
 
