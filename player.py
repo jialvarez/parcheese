@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-import checker
+from checker import Checker
 import square
 
 
@@ -28,7 +28,7 @@ class Player:
         self.login = login
 
         # list comprehension for getting the checkers list
-        self.checkers = [checker.Checker(color) for chk in range(4)]
+        self.checkers = [Checker(color) for chk in range(4)]
         print self.checkers
 
         # when throw dice, times that player has obtained 6 as result
