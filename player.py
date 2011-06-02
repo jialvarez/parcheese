@@ -19,6 +19,7 @@
 
 from checker import Checker
 import square
+import sys
 
 
 class Player:
@@ -54,7 +55,15 @@ class Player:
         return self.checkers
 
     def getChecker(self, checkerId):
-        return self.checkers[checkerId]
+        ''' Select a checker by its id'''
+
+        chk = self.checkers[checkerId]
+        if chk.inNirvana() == True:
+            print "Error: checker in nirvana was selected"
+            # TODO: Change direct exit with a warning message
+            sys.exit(0)
+        else:
+            return chk
 
     def getInitialCheckerPosition(self):
         return self.checkers[0].getInitialPosition()
