@@ -57,7 +57,7 @@ class Table:
             self.squares.append(square.Square(key, \
                     tableSquares.get(key), _isSecure))
 
-        # four different paths for four colors :)
+        # four moveCheckerHereerent paths for four colors :)
         for yellowKey in yellowSquares:
             self.specialYSquares.append(square.Square(yellowKey, \
                     yellowSquares.get(yellowKey), True))
@@ -104,7 +104,7 @@ class Table:
         checkerToMove = player.getChecker(checkerId)
 
         if checkerToMove.inNirvana() == True:
-              print "THESE CHECKER IS IN NIRVANA!"
+              print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " IS IN NIRVANA!"
               return
 
         checkerColor = checkerToMove.getColor()
@@ -138,7 +138,7 @@ class Table:
 
         # move to new position and get it
         if checkerToMove.isAtHome() == True and newPosition > 8:
-              print "YOU CAN'T MOVE THE CHECKER!"
+              print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " CANNOT BE MOVED!"
               return
 
         # get checkers in square to leave
@@ -174,7 +174,7 @@ class Table:
 
         if checkerToMove.isAtHome() == True and newPosition == 8:
             checkerToMove.setInNirvana()
-            print "THESE CHECKER IS AT HOME!"
+            print "CHECKER " + str(checkerId) + " OF " + str(player.getLogin()) + " ENTERED AT HOME!"
 
 
     def getNewSquare(self, player, checkerToMove, newPosition, \
@@ -183,30 +183,30 @@ class Table:
         if checkerToMove.isAtHome() == False:
             # first time we enter at home
             if checkerToMove.isEnteringAtHome(newPosition) == True:
-                diff = newPosition - lastCheckerPosition
+                moveCheckerHere = newPosition - lastCheckerPosition
 
                 checkerToMove.setAtHome() 
-                newCheckerPosition = player.move(checkerToMove, diff)
+                newCheckerPosition = player.move(checkerToMove, moveCheckerHere)
 
-                return self.getSquareToAddChecker(checkerColor, diff)
+                return self.getSquareToAddChecker(checkerColor, moveCheckerHere)
             # normal case (normal squares in the board)
             else:
                 if checkerColor is not 'yellow' and newPosition > 68:
-                    diff = newPosition - 68
+                    moveCheckerHere = newPosition - 68
                     passSixtyEight = True
                 else:
-                    diff = result
+                    moveCheckerHere = result
                     passSixtyEight = False
 
-                newCheckerPosition = player.move(checkerToMove, diff, passSixtyEight)
+                newCheckerPosition = player.move(checkerToMove, moveCheckerHere, passSixtyEight)
 
                 return self.getSquareToAddChecker(None, newCheckerPosition)
         # we are in home squares (from 1 to 8)
         else:
-            diff = newPosition
+            moveCheckerHere = newPosition
 
-            newCheckerPosition = player.move(checkerToMove, diff)
-            return self.getSquareToAddChecker(checkerColor, diff)
+            newCheckerPosition = player.move(checkerToMove, moveCheckerHere)
+            return self.getSquareToAddChecker(checkerColor, moveCheckerHere)
 
     def getSquareToAddChecker(self, color, checkerPosition):
 

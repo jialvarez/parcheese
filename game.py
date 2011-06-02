@@ -24,7 +24,8 @@ class Game:
 
     def __init__(self):
         # here comes pygame window, config rules, etc...
-        self.players = [player.Player('neonigma', 'green')]
+        self.players = [player.Player('neonigma', 'green'),
+                        player.Player('piponazo', 'blue')]
         self.gameTable = table.Table(self.players)
 
     def getPlayer(self, playerIndex):
@@ -42,4 +43,4 @@ myGameTable = startGame.getGameTable()
 # Example: moves player 0, checker 0
 while True:
     myGameTable.playerMoves(startGame.getPlayer(0), 0)
-
+    myGameTable.playerMoves(startGame.getPlayer(1), 0)
