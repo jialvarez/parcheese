@@ -18,7 +18,6 @@
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
 
-
 class Checker:
     """ Class that represents the checker in game """
 
