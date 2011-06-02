@@ -1,0 +1,21 @@
+### GAMES RULES ###
+
+- When you obtain 6, 3 times consecutively, move one of the checkers to the
+  initial position.
+
+- If the player obtain a 5, and he has checkers in the home, take out one of
+  these ones automatically if it is possible. 
+
+- When a player moves one of his checkers to a square previously occupied by
+  another player's checker he have to move one of his checkers (not necessarily
+  the last moved) 20 squares.
+
+- When a player moves one of his checkers to a square previously occupied by
+  other of his checkers, a barrier is created in this square and none of the
+  checkers can pass through it.
+
+- When a checker arrives to its Nirvana the owner of this checker have to move
+  one of his other checkers 10 squares.
+
+- When a player has all his checkers in the board if he gets a 6, he moves one
+  of his checkers 12 squares.
