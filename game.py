@@ -39,9 +39,10 @@ class Game:
 # TESTING!
 startGame = Game()
 myGameTable = startGame.getGameTable()
+end = True
 
 # Testing players. This must be done with pygame and using mouse.
 # Example: moves player 0, checker 0
-while True:
+while end:
     myGameTable.playerMoves(startGame.getPlayer(0), 0)
     myGameTable.playerMoves(startGame.getPlayer(1), 0)

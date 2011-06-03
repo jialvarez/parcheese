@@ -37,13 +37,14 @@ class Checker:
             self.initialPosition = 56
             self.lastPosition = 51
 
-        self.currentPosition = 0
+        self.currentPosition = 0    # At home
 
         self.atHome = False
 
         self.isInNirvana = False
 
     def isEnteringAtHome(self, newPosition):
+        # Unique case where lastPosition > initialPosition
         if self.color is not 'yellow':
             if newPosition > self.lastPosition and \
                     newPosition < self.initialPosition:

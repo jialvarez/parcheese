@@ -1,7 +1,29 @@
 ### TODO LIST ###
 
-#DOCUMENTACIÓN
-    *Grafo con la estructura de ficheros/modulo y como se relacionan... (Xmind?)
+### DOCUMENTATION
+- Design diagram of classes and modules (Xmind?).
+- Document all the existing classes and methods! (at least)
 
-#FUNCIONALIDADES
-    *Version del juego para invidentes
+### FEATURES
+## General
+- Accessibility version for disabled people.
+- Make game.py a python script for running it as (./game.py).
+- Change the name of game.py to parcheese_console.py. Move the rest of files
+  to src folder.
+
+## Checker
+- When a checker arrives to nirvana throw the signal [C1].
+
+## Player
+- Listen signal [C1] from checkers -> Check if all checkers are in nirvana.
+  In this case throw the signal winner [P1].
+- If the user try to select a checker that is in Nirvana throw a warning
+  message (Currently the application ends).
+
+## Game
+- Listen signal [P1] from players. End the game when received. 
+
+## Table
+- Change Table.playerMoves() to Table.playerTurn(). In the actual method you
+  need to specify the checker to move before the dice is thrown. In the real
+  life you first throw the dice and the decide which checker to move.
