@@ -17,32 +17,69 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 import table
-import player
+from player import Player
 
 
 class Game:
 
     def __init__(self):
         # here comes pygame window, config rules, etc...
-        self.players = [player.Player('neonigma', 'green'),
-                        player.Player('piponazo', 'blue')]
-        self.gameTable = table.Table(self.players)
 
-    def getPlayer(self, playerIndex):
-        return self.players[playerIndex]
+        self.players = []   # List of players
+        self.gameTable = table.Table(self.players)
+        self.turn = -1
+        self.status = 0 # 0 (Game stopped) : 1 (Playing)
+
+    def addPlayer(self, name, color):
+        ''' Add a new player to the game '''
+        self.players.append(Player(name, color))
+
+    def delPlayer(self, idx):
+        ''' Remove a player by its index in the list '''
+        self.players[idx:idx + 1] = []
+
+    def getPlayer(self, idx):
+        ''' Return instance of player by index in the list '''
+        return self.players[idx]
+
+    def nextPlayer(self):
+        ''' Return the player which plays the next turn '''
+        self.turn += 1
+        if self.turn  >= len(self.players):
+            self.turn = 0
+        return self.players[self.turn]
 
     def getGameTable(self):
         return self.gameTable
 
+    def start(self):
+        ''' Once the game is started some operations are blocked '''
+        if self.status == 0:
+            self.status = 1
+        else:
+            # TODO : Ask user if he want to restart the game
+            restart = True # Temporal
+#            if restart:
+                # TODO : Reset the game
 
-# TESTING!
-startGame = Game()
-myGameTable = startGame.getGameTable()
-end = True
 
-# Testing players. This must be done with pygame and using mouse.
-# Example: moves player 0, checker 0
-while end:
-    myGameTable.playerMoves(startGame.getPlayer(0), 0)
-    myGameTable.playerMoves(startGame.getPlayer(1), 0)
+def main():
+    ''' Main function '''
+
+    logging.basicConfig(level=logging.INFO)
+
+    myGame = Game()
+    myGame.addPlayer('neonigma', 'green')
+    myGame.addPlayer('piponazo', 'blue')
+    myTable = myGame.getGameTable()
+    end = True
+
+    # Testing players. This must be done with pygame and using mouse.
+    # Example: moves player 0, checker 0
+    while end:
+        myTable.turn(myGame.nextPlayer())
+
+if __name__ == '__main__':
+    main()

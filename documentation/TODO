@@ -10,6 +10,9 @@
 - Make game.py a python script for running it as (./game.py).
 - Change the name of game.py to parcheese_console.py. Move the rest of files
   to src folder.
+- Once the game is started if one player wants to restart the game a petition
+  must be send to the others players and act adequately 
+- The turns of the player must be assigned by color and no by insertion order
 
 ## Checker
 - When a checker arrives to nirvana throw the signal [C1].

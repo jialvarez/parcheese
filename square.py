@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
+
 class Square:
 
     def __init__(self, squareId, position, secure):
@@ -24,7 +25,7 @@ class Square:
         self.position = position
         self.checkerQty = 0
         self.locked = False
-        self.checkers = [] 
+        self.checkers = []      # Checkers in the square
         self.isSecure = secure
 
     def setLocked(self):
