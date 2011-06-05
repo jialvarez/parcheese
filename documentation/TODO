@@ -10,10 +10,16 @@
 - Make game.py a python script for running it as (./game.py).
 - Change the name of game.py to parcheese_console.py. Move the rest of files
   to src folder.
+- Once the game is started if one player wants to restart the game a petition
+  must be send to the others players and act adequately 
+- The turns of the player must be assigned by color and no by insertion order
 
 ## Checker
 - When a checker arrives to nirvana throw the signal [C1].
-
+- Change names. Right now we call to safe squares of each player HOME. HOME
+  must be the place where the checkers are until they enter in game. We can
+  call to the squares with the same color of the player (Stair-Squares)
+  
 ## Player
 - Listen signal [C1] from checkers -> Check if all checkers are in nirvana.
   In this case throw the signal winner [P1].
@@ -27,3 +33,4 @@
 - Change Table.playerMoves() to Table.playerTurn(). In the actual method you
   need to specify the checker to move before the dice is thrown. In the real
   life you first throw the dice and the decide which checker to move.
+- If dice is 6 throw again

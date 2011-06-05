@@ -1,4 +1,4 @@
-# Parcheese 
+# Parcheese
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
@@ -17,30 +17,55 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
+
 class Square:
+    """ Represent a square of the board. """
 
-    def __init__(self, squareId, position, secure):
-        self.squareId = squareId
-        self.position = position
-        self.checkerQty = 0
-        self.locked = False
-        self.checkers = [] 
-        self.isSecure = secure
+    def __init__(self, squareId, squareType):
+        """ Constructor.
+        Arguments:
+        squareId - Unique ID for the square
+        squareType - 0 : normal; 1 : secured; 2 : stairs; 3 : Nirvana
+        """
+        self.squareId = squareId    # Unique ID
+        self.locked = False         # Locked by two checkers
+        self.checkers = []          # Checkers in the square
+        self.sType = squareType     # Type of square
 
-    def setLocked(self):
-        self.locked = not self.locked
+    def setLock(self, val):
+        """ Change the status of the Set this square as blocked """
+        # TODO : Assert boolean type
+        self.locked = val
 
-    def setCheckerQty(self):
-        seld.checkerQty = len(self.checkers)
+    def addChecker(self, chk):
+        """ Add a checker to this square"""
+        self.checkers.append(chk)
+        chk.setSquare(self)
 
-    def addChecker(self, checker):
-        self.checkers.append(checker)
+    def popChecker(self, chk):
+        """ Remove and existing checker from the list of checkers """
+        self.checkers.pop(self.checkers.index(chk))
 
-    def getSquareId(self):
+    def getID(self):
+        """ Get ID of square """
         return self.squareId
 
-    def getPosition(self):
-        return self.position
-
     def getCheckers(self):
+        """ Get the list of checkers in this square """
         return self.checkers
+
+    def isNormal(self):
+        """ Indicate if the square is of normal type """
+        return self.sType == 0
+
+    def isSecure(self):
+        """ Indicate if the square is of secure type """
+        return self.sType == 1
+
+    def isStair(self):
+        """ Indicate if the square is of stair type """
+        return self.sType == 2
+
+    def isNirvana(self):
+        """ Indicate if the square is of nirvana type """
+        return self.sType == 3
