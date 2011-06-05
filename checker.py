@@ -19,69 +19,49 @@
 
 
 class Checker:
-    """ Class that represents the checker in game """
+    """ Class that represents a checker of a player.
 
-    def __init__(self, color):
-        self.color = color
+    The checkers doesn't contain the color value because of their owner also
+    contains this value and it would be redundant.
+    """
 
-        if color == 'yellow':
-            self.initialPosition = 5
-            self.lastPosition = 68
-        elif color == 'blue':
-            self.initialPosition = 22
-            self.lastPosition = 17
-        elif color == 'red':
-            self.initialPosition = 39
-            self.lastPosition = 34
-        elif color == 'green':
-            self.initialPosition = 56
-            self.lastPosition = 51
+    def __init__(self, player, square):
+        """ Constructor.
 
-        self.currentPosition = 0    # At home
+        Keyword arguments:
+        player : The player that have this checker.
+        """
+        self.inStairs = False       # In stairs ?
+        self.isInNirvana = False    # In nirvana ?
+        self.player = player        # Ref to player
+        self.square = square        # Ref to square
 
-        self.atHome = False
+    def getPos(self):
+        """ Return the position of checker """
+        return self.square.getID()
 
-        self.isInNirvana = False
+    def isInStairs(self):
+        """ Indicate if the checker is in the stairs """
+        return self.inStairs
 
-    def isEnteringAtHome(self, newPosition):
-        # Unique case where lastPosition > initialPosition
-        if self.color is not 'yellow':
-            if newPosition > self.lastPosition and \
-                    newPosition < self.initialPosition:
-                        return True
-        elif self.color is 'yellow' and newPosition > 68:
-            return True
-
-        return False
-
-    def getColor(self):
-        return self.color
-
-    def move(self, result, passSixtyEight=False):
-        if self.color is not 'yellow' and passSixtyEight is True:
-                    self.currentPosition = result
-        elif self.atHome == False:
-            self.currentPosition = self.currentPosition + result
-        else:
-            self.currentPosition = result
-
-    def getPosition(self):
-        return self.currentPosition
-
-    def getInitialPosition(self):
-        return self.initialPosition
-
-    def getLastPosition(self):
-        return self.lastPosition
-
-    def isAtHome(self):
-        return self.atHome
-
-    def setAtHome(self):
-        self.atHome = True
+    def setInStairs(self):
+        self.inStairs = True
 
     def inNirvana(self):
+        """ Indicate if the checker is in the nirvana """
         return self.isInNirvana
 
     def setInNirvana(self):
         self.isInNirvana = True
+
+    def getPlayer(self):
+        """ Return the player that owns this checker """
+        return self.player
+
+    def setSquare(self, square):
+        """ Assign the reference to the square where the checker is """
+        self.square = square
+
+    def getSquare(self):
+        """ Return the reference to the square where the checker is """
+        return self.square

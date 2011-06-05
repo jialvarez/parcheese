@@ -25,15 +25,17 @@ from player import Player
 class Game:
 
     def __init__(self):
-        # here comes pygame window, config rules, etc...
+        """ Constructor.
+        Here comes pygame window, config rules, etc...
+        """
 
         self.players = []   # List of players
-        self.gameTable = table.Table(self.players)
         self.turn = -1
-        self.status = 0 # 0 (Game stopped) : 1 (Playing)
+        self.playing = False
 
     def addPlayer(self, name, color):
         ''' Add a new player to the game '''
+        logging.info("New player [%s, %s]", name, color)
         self.players.append(Player(name, color))
 
     def delPlayer(self, idx):
@@ -51,13 +53,14 @@ class Game:
             self.turn = 0
         return self.players[self.turn]
 
-    def getGameTable(self):
-        return self.gameTable
-
     def start(self):
         ''' Once the game is started some operations are blocked '''
-        if self.status == 0:
-            self.status = 1
+        if self.playing == False:
+            self.playing = True
+            myTable = table.Table(self.players)
+            end = True
+            while end:
+                myTable.turn(self.nextPlayer())
         else:
             # TODO : Ask user if he want to restart the game
             restart = True # Temporal
@@ -68,18 +71,15 @@ class Game:
 def main():
     ''' Main function '''
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
 
     myGame = Game()
     myGame.addPlayer('neonigma', 'green')
     myGame.addPlayer('piponazo', 'blue')
-    myTable = myGame.getGameTable()
-    end = True
 
     # Testing players. This must be done with pygame and using mouse.
-    # Example: moves player 0, checker 0
-    while end:
-        myTable.turn(myGame.nextPlayer())
+    # This loop is activated when the game starts
+    myGame.start()
 
 if __name__ == '__main__':
     main()
