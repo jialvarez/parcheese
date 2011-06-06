@@ -21,10 +21,8 @@
 
 import logging
 import sys
-sys.path.append('src/core')
 
-import game
-
+from src.core import game
 
 def main():
     ''' Main function for parcheese game in console mode '''
