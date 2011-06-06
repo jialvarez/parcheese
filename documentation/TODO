@@ -8,8 +8,8 @@
 ## General
 - Accessibility version for disabled people.
 - Make game.py a python script for running it as (./game.py).
-- Change the name of game.py to parcheese_console.py. Move the rest of files
-  to src folder.
+- Move core files to src/core.
+- Move gui files to src/gui.
 - Once the game is started if one player wants to restart the game a petition
   must be send to the others players and act adequately 
 - The turns of the player must be assigned by color and no by insertion order
