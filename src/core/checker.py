@@ -25,7 +25,7 @@ class Checker:
     contains this value and it would be redundant.
     """
 
-    def __init__(self, player, square):
+    def __init__(self, player, square, atHome):
         """ Constructor.
 
         Keyword arguments:
@@ -45,6 +45,7 @@ class Checker:
         return self.inStairs
 
     def setInStairs(self):
+        """ Set the checker in the stairs """
         self.inStairs = True
 
     def inNirvana(self):
@@ -52,6 +53,7 @@ class Checker:
         return self.isInNirvana
 
     def setInNirvana(self):
+        """ Set the checker in the stairs """
         self.isInNirvana = True
 
     def getPlayer(self):

@@ -59,8 +59,14 @@ class Player:
 
     def initCheckers(self, homeSquare):
         """ Initialize checkers of player """
-        # list comprehension for getting the checkers list
-        self.checkers = [Checker(self, homeSquare) for chk in range(4)]
+        # list comprehension for getting the checkers list (3 others at home)
+        self.checkers = [Checker(self, homeSquare, True) for chk in range(3)]
+
+        # one checker at start position
+        self.checkers.append(Checker(self, homeSquare, False))
+
+        logging.debug("Checkers %s initialized for player %s", self.checkers,
+                                                               self.getName())
 
     def resetSixTimes(self):
         """ Reset the sixTimes counter. """
@@ -70,10 +76,10 @@ class Player:
         """ Increment the sixTimes counter and return True. If it cannot be
         incremented then it's reseted and the function return False. """
         if self.sixTimes == 2:
-            self.sixTimes = 0   # Reset counter
+            self.resetSixTimes()   # Reset counter
             return False        # Invalid increment. TODO -> kill checker
         else:
-            self.sixTimes += self.sixTimes + 1
+            self.sixTimes = self.sixTimes + 1
             return True
 
     def getName(self):
@@ -98,6 +104,13 @@ class Player:
     def getLastCheckerPosition(self):
         return self.checkers[0].getLastPos()
 
+    def toHome(self, chk, normalS):
+        curSq = chk.getSquare()           # Current square
+        curSq.popChecker(chk)
+        newSq = normalS[0]
+        newSq.addChecker(chk)
+        logging.info("checker moved to %d", chk.getPos())
+
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
@@ -111,7 +124,7 @@ class Player:
     def checkersInHome(self):
         """ If there is a checker in HOME, return it """
         for chk in self.checkers:
-            if chk.pos == 0:
+            if chk.getPos() == 0:
                 return chk
         return False
 

@@ -46,7 +46,7 @@ class Table:
         # 2 - Take out one checker of each player into their initial position
         for player in self.players:
             player.initCheckers(self.squares[0])# HOME square
-            chk = player.getCheckers()[0]       # Take out a checker from HOME
+            chk = player.getCheckers()[3]       # Take out a checker from HOME
             player.toInitPos(chk, self.squares) # Move to the initial position
 
     def fillTableSquares(self):
@@ -79,7 +79,18 @@ class Table:
 
         # Step 1 - throw the dice!
         dVal = self.dice.throwDice()
+        #dVal = 6 # Testing purposes!
         logging.info("%s gets %s ", player.getName(), str(dVal))
+
+        # Step 2 - Select checker to move
+        chkId = 3
+        chk = player.getChecker(chkId)
+        logging.info("%s select checker in %s ", player.getName(),
+          str(chk.getPos()))
+
+        if chk.getPos() == 0:
+            logging.info("%s cannot move this checker, it's at home!", player.getName())
+            return
 
         # TODO : If dice is 5 and player have checkers in home, take out one of
         # them.
@@ -88,16 +99,11 @@ class Table:
         if dVal == 6:
             if player.incSixTimes() == False:
                 # TODO: Move checker to initial position or HOME?
-                logging.info("Player obtained 6 three times consecutively")
+                logging.info("Player obtained 6 three times consecutively, GO HOME!")
+                player.toHome(chk, self.squares)
                 return
         else:
             player.resetSixTimes()
-
-        # Step 2 - Select checker to move
-        chkId = 0
-        chk = player.getChecker(chkId)
-        logging.info("%s select checker in %s ", player.getName(),
-          str(chk.getPos()))
 
         # Step 3 - Move
         stairSquares = []
@@ -112,3 +118,4 @@ class Table:
         player.move(chk, dVal, self.squares, stairSquares)
 
         # TODO : If dice is 6 throw again
+        if dVal == 6: self.turn(player)
