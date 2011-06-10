@@ -88,18 +88,24 @@ class Table:
         logging.info("%s select checker in %s ", player.getName(),
           str(chk.getPos()))
 
+        # if pos is 0, this checker it is at home
         if chk.getPos() == 0:
-            logging.info("%s cannot move this checker, it's at home!", player.getName())
+            logging.info("%s cannot move this checker, it is at home!", 
+                         player.getName())
             return
 
-        # TODO : If dice is 5 and player have checkers in home, take out one of
-        # them.
+        # If dice is 5 and player have checkers in home, take out one of them
+        if dVal == 5:
+            chkFive = player.checkersAtHome()
+            if chkFive is not False: # you have checkers at home
+                res = player.toInitPos(chkFive, self.squares)
+                if res == True: return # chk moved to initial pos, else go on
 
         # Check how many times the player has obtained six consecutively
         if dVal == 6:
             if player.incSixTimes() == False:
-                # TODO: Move checker to initial position or HOME?
-                logging.info("Player obtained 6 three times consecutively, GO HOME!")
+                # Move checker to HOME
+                logging.info("Player obtained 6 three times, GO HOME!")
                 player.toHome(chk, self.squares)
                 return
         else:
@@ -117,5 +123,5 @@ class Table:
             stairSquares = self.yStair
         player.move(chk, dVal, self.squares, stairSquares)
 
-        # TODO : If dice is 6 throw again
+        # If dice is 6 throw again
         if dVal == 6: self.turn(player)

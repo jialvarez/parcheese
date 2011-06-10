@@ -65,9 +65,6 @@ class Player:
         # one checker at start position
         self.checkers.append(Checker(self, homeSquare, False))
 
-        logging.debug("Checkers %s initialized for player %s", self.checkers,
-                                                               self.getName())
-
     def resetSixTimes(self):
         """ Reset the sixTimes counter. """
         self.sixTimes = 0
@@ -114,15 +111,21 @@ class Player:
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
-        squ.addChecker(chk)
-        logging.info("%s move checker to initial position", self.name)
+        if len(squ.getCheckers()) == 2:
+            logging.info("You cannot take out more checkers at initial pos,"
+                          " it has been occupied by other two checkers")
+            return False
+        else:
+            squ.addChecker(chk)
+            logging.info("%s move checker to initial position", self.name)
+            return True
 
     def getColor(self):
         """ Get the color of the player """
         return self.color
 
-    def checkersInHome(self):
-        """ If there is a checker in HOME, return it """
+    def checkersAtHome(self):
+        """ If there is a checker at HOME, return it """
         for chk in self.checkers:
             if chk.getPos() == 0:
                 return chk
