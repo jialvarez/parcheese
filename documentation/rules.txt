@@ -1,35 +1,35 @@
 ### GAMES RULES ###
 
-[R01] When you obtain 6, 3 times consecutively, move the last moved checker to
-  home. (DONE)
+[R01] When you obtain 6, 3 times consecutively, move the last moved checker
+  to home. (DONE)
 
 [R02] If the player gets 5, and he has checkers at home, take out one of
   these automatically if it is possible. (DONE)
 
-[R03] When a player gets 5, and he has checkers at home, but two of his checkers
-  are in the initial position, the player can't take out a checker from home.
-  (DONE)
+[R03] When a player gets 5, and he has checkers at home, but two of his 
+  checkers are in the initial position, the player can't take out a checker 
+  from home. (DONE)
 
-[R04] When a player gets 5, and he has checkers at home, but there are one of his
-  checkers in the initial position and also another player's checker, the 
-  checker of the opponent is moved to its home, and the player that gets 5
+[R04] When a player gets 5, and he has checkers at home, but there are one 
+  of his checkers in the initial position and also another player's checker, 
+  the checker of the opponent is moved to its home, and the player that gets 5
   move one checker across 20 squares.
 
-[R05] When a player moves one of his checkers to a square previously occupied by
-  another player's checker he have to move one of his checkers (not necessarily
-  the last moved) 20 squares.
+[R05] When a player moves one of his checkers to a square previously occupied
+  by another player's checker he have to move one of his checkers (not 
+  necessarily the last moved) 20 squares.
 
-[R06] When a player moves one of his checkers to a square previously occupied by
-  other of his checkers, a barrier is created in this square and none of the
-  checkers can pass through it.
+[R06] When a player moves one of his checkers to a square previously occupied
+  by other of his checkers, a barrier is created in this square and none of 
+  the checkers can pass through it.
 
 [R07] When a player moves one of his checkers to a SECURE square previously
   occupied by two checkers of different color, the checker currently moving
   can jump over this NOT barrier.
 
-[R08] When a checker arrives to its Nirvana the owner of this checker have to move
-  one of his other checkers 10 squares.
+[R08] When a checker arrives to its Nirvana the owner of this checker have 
+  to move one of his other checkers 10 squares.
 
-[R09] When a player has all his checkers in the board if he gets a 6, he moves one
-  of his checkers 12 squares. (DONE)
+[R09] When a player has all his checkers in the board if he gets a 6, he moves 
+  one of his checkers 12 squares. (DONE)
 

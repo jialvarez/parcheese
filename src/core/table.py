@@ -109,7 +109,7 @@ class Table:
                 player.toHome(chk, self.squares)
                 return
             elif player.checkersAtHome() == False and \
-                 chk.isInStairs() == False:
+                        chk.isInStairs() == False:
                 # you do not have checkers at home
                 dVal = dVal * 2
                 logging.info("%s do not have checkers at home, got 12!", 
