@@ -108,6 +108,12 @@ class Table:
                 logging.info("Player obtained 6 three times, GO HOME!")
                 player.toHome(chk, self.squares)
                 return
+            elif player.checkersAtHome() == False and \
+                 chk.isInStairs() == False:
+                # you do not have checkers at home
+                dVal = dVal * 2
+                logging.info("%s do not have checkers at home, got 12!", 
+                             player.getName())
         else:
             player.resetSixTimes()
 

@@ -111,14 +111,19 @@ class Player:
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
-        if len(squ.getCheckers()) == 2:
-            logging.info("You cannot take out more checkers at initial pos,"
-                          " it has been occupied by other two checkers")
-            return False
-        else:
-            squ.addChecker(chk)
-            logging.info("%s move checker to initial position", self.name)
-            return True
+        #if len(squ.getCheckers()) == 2:
+        #    logging.warn("You cannot take out more checkers at initial pos,"
+        #                  " it has been occupied by other two checkers")
+        #    return False
+        #else:
+        #    squ.addChecker(chk)
+        #    logging.info("%s move checker to initial position", self.name)
+        #    return True
+        squ.addChecker(chk)
+        logging.info("%s move checker to initial position", self.name)
+        return True
+
+
 
     def getColor(self):
         """ Get the color of the player """
