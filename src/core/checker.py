@@ -25,7 +25,7 @@ class Checker:
     contains this value and it would be redundant.
     """
 
-    def __init__(self, player, square, atHome):
+    def __init__(self, player, square):
         """ Constructor.
 
         Keyword arguments:

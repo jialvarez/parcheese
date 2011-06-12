@@ -46,7 +46,7 @@ class Table:
         # 2 - Take out one checker of each player into their initial position
         for player in self.players:
             player.initCheckers(self.squares[0])# HOME square
-            chk = player.getCheckers()[3]       # Take out a checker from HOME
+            chk = player.getCheckers()[0]       # Take out a checker from HOME
             player.toInitPos(chk, self.squares) # Move to the initial position
 
     def fillTableSquares(self):
@@ -79,11 +79,10 @@ class Table:
 
         # Step 1 - throw the dice!
         dVal = self.dice.throwDice()
-        #dVal = 6 # Testing purposes!
         logging.info("%s gets %s ", player.getName(), str(dVal))
 
         # Step 2 - Select checker to move
-        chkId = 3
+        chkId = 0
         chk = player.getChecker(chkId)
         logging.info("%s select checker in %s ", player.getName(),
           str(chk.getPos()))

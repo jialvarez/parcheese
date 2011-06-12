@@ -31,8 +31,8 @@ def main():
                         filename="/tmp/parcheese.log",
                         filemode="w")
     myGame = game.Game()
-    myGame.addPlayer('neonigma', 'green')
-    myGame.addPlayer('piponazo', 'blue')
+    myGame.addPlayer('neonigma', 'yellow')
+    myGame.addPlayer('piponazo', 'green')
 
     # Testing players. This must be done with pygame and using mouse.
     # This loop is activated when the game starts

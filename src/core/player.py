@@ -60,10 +60,7 @@ class Player:
     def initCheckers(self, homeSquare):
         """ Initialize checkers of player """
         # list comprehension for getting the checkers list (3 others at home)
-        self.checkers = [Checker(self, homeSquare, True) for chk in range(3)]
-
-        # one checker at start position
-        self.checkers.append(Checker(self, homeSquare, False))
+        self.checkers = [Checker(self, homeSquare) for chk in range(4)]
 
     def resetSixTimes(self):
         """ Reset the sixTimes counter. """
@@ -111,13 +108,17 @@ class Player:
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
-        if len(squ.getCheckers()) == 1:
+        chkInSq = len(squ.getCheckers())
+        if chkInSq == 2:
             logging.warn("You cannot take out more checkers at initial pos,"
                           " it has been occupied by two of your checkers")
             return False
         else:
             squ.addChecker(chk)
             logging.info("%s move checker to initial position", self.name)
+            if chkInSq == 1:
+                logging.info("Square %d locked!", squ.getID())
+                squ.setLock(True) # lock this square
             return True
 
     def getColor(self):
@@ -142,6 +143,17 @@ class Player:
                 chk.getPos() < self.initPos:
                 return True
         return False
+
+    def checkMobility(self, rng, normalS, newSq):
+        """ see if any square in the range of movement is locked """
+        for sq in rng:
+            # False: you can not move in this range
+            if normalS[sq].isLocked():
+                logging.warn("You can not pass through the range,"
+                             " square %d is locked!", normalS[sq].getID())
+                return False
+
+        return newSq
 
     def move(self, chk, dVal, normalS, stairS):
         """ Do the checker movement
@@ -171,13 +183,22 @@ class Player:
             if self.nearStairs(chk) and newPos > self.lastPos:
                 logging.debug("movement entering in stairs")
                 chk.setInStairs()
-                newSq = stairS[newPos - self.lastPos - 1]
+                rng = range(curSq.getID()+1, self.lastPos+1)
+                newSq = self.checkMobility(rng, 
+                                           normalS,
+                                           stairS[newPos - self.lastPos - 1])
+                if newSq == False: return
             else:
                 logging.debug("Normal movement")
-                # TODO : Check mobility
                 if newPos > 68:
                     newPos -= 68
-                newSq = normalS[newPos]
+                    rng = range(curSq.getID(), 68)
+                    rng += range(1, newPos+1)
+                else:
+                    rng = range(curSq.getID()+1, newPos+1)
+
+                newSq = self.checkMobility(rng, normalS, normalS[newPos])
+                if newSq == False: return
 
         curSq.popChecker(chk)
         newSq.addChecker(chk)

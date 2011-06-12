@@ -21,7 +21,7 @@
 
 [R06] When a player moves one of his checkers to a square previously occupied
   by other of his checkers, a barrier is created in this square and none of 
-  the checkers can pass through it.
+  the checkers can pass through it. (DONE)
 
 [R07] When a player moves one of his checkers to a SECURE square previously
   occupied by two checkers of different color, the checker currently moving

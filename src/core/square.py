@@ -34,17 +34,26 @@ class Square:
 
     def setLock(self, val):
         """ Change the status of the Set this square as blocked """
-        # TODO : Assert boolean type
+        assert(type(val) == bool)
         self.locked = val
+
+    def isLocked(self):
+        """ Get if this square is locked """
+        return self.locked
 
     def addChecker(self, chk):
         """ Add a checker to this square"""
         self.checkers.append(chk)
         chk.setSquare(self)
+        if len(self.checkers) == 2:
+            self.setLock(True) # lock this square
 
     def popChecker(self, chk):
         """ Remove and existing checker from the list of checkers """
         self.checkers.pop(self.checkers.index(chk))
+        # remove lock!
+        if self.isLocked():
+            self.setLock(False)
 
     def getID(self):
         """ Get ID of square """
