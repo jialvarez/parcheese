@@ -155,6 +155,15 @@ class Player:
 
         return newSq
 
+    def checkMobEnterStairs(self, startIdx, endIdx, squares, stairS):
+        rng = range(startIdx, endIdx)
+        logging.info("Checking range: " + str(rng))
+        newSq = self.checkMobility(rng, squares, stairS)
+
+        if newSq == False: return
+        else: return newSq
+
+
     def move(self, chk, dVal, normalS, stairS):
         """ Do the checker movement
         Arguments
@@ -176,18 +185,46 @@ class Player:
                 logging.info("You cannot move this checker. Overpass nirvana")
                 return
             else:
+                # get start and end pos inside the stairs
+                startIdx = curSq.getID() - stairS[0].getID() + 1
+                endIdx = newPos - stairS[0].getID()
+
+                # exclude nirvana from computing
+                endIdx = endIdx if endIdx == 7 else endIdx + 1
+
+                # get range
+                rng = range(startIdx, endIdx)
+
                 # Obtain reference to new square
-                newSq = stairS[newPos - stairS[0].getID()]
+                newSq = self.checkMobility(rng,
+                                           stairS,
+                                           stairS[newPos - stairS[0].getID()])
+
+                if newSq == False: return
         else:
             # Check if we are going to enter in the stairs
             if self.nearStairs(chk) and newPos > self.lastPos:
                 logging.debug("movement entering in stairs")
                 chk.setInStairs()
-                rng = range(curSq.getID()+1, self.lastPos+1)
-                newSq = self.checkMobility(rng, 
-                                           normalS,
-                                           stairS[newPos - self.lastPos - 1])
+
+                targetSq = stairS[newPos - self.lastPos - 1]
+
+                # get range until lastPosition
+                newSq = self.checkMobEnterStairs(curSq.getID()+1, 
+                                                 self.lastPos+1,
+                                                 normalS,
+                                                 targetSq)
+
+                if newSq is not False:
+                    # get range from first stair position to newPosition
+                    newSq = self.checkMobEnterStairs(0, newPos - self.lastPos,
+                                                     stairS, targetSq)
+                else: 
+                    return
+
                 if newSq == False: return
+                # if we are here, we have a free target square,
+                # with nobody inside it
             else:
                 logging.debug("Normal movement")
                 if newPos > 68:
