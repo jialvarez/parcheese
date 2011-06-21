@@ -160,9 +160,10 @@ class Player:
         logging.info("Checking range: " + str(rng))
         newSq = self.checkMobility(rng, squares, stairS)
 
-        if newSq == False: return
-        else: return newSq
-
+        if newSq == False:
+            return
+        else:
+            return newSq
 
     def move(self, chk, dVal, normalS, stairS):
         """ Do the checker movement
@@ -178,7 +179,7 @@ class Player:
         # Check type of movement (normal, from normal to stairs, stairs)
         newPos = curSq.getID() + dVal
 
-        if chk.isInStairs(): # Already in stairs
+        if chk.inStairs(): # Already in stairs
             logging.debug("in-stairs movement ")
             # Check mobility : we pass the nirvana
             if (newPos) > stairS[7].getID():
@@ -200,7 +201,8 @@ class Player:
                                            stairS,
                                            stairS[newPos - stairS[0].getID()])
 
-                if newSq == False: return
+                if newSq == False:
+                    return
         else:
             # Check if we are going to enter in the stairs
             if self.nearStairs(chk) and newPos > self.lastPos:
@@ -210,19 +212,20 @@ class Player:
                 targetSq = stairS[newPos - self.lastPos - 1]
 
                 # get range until lastPosition
-                newSq = self.checkMobEnterStairs(curSq.getID()+1, 
-                                                 self.lastPos+1,
-                                                 normalS,
+                newSq = self.checkMobEnterStairs(curSq.getID() + 1, \
+                                                 self.lastPos + 1, \
+                                                 normalS, \
                                                  targetSq)
 
                 if newSq is not False:
                     # get range from first stair position to newPosition
                     newSq = self.checkMobEnterStairs(0, newPos - self.lastPos,
                                                      stairS, targetSq)
-                else: 
+                else:
                     return
 
-                if newSq == False: return
+                if newSq == False:
+                    return
                 # if we are here, we have a free target square,
                 # with nobody inside it
             else:
@@ -230,12 +233,13 @@ class Player:
                 if newPos > 68:
                     newPos -= 68
                     rng = range(curSq.getID(), 68)
-                    rng += range(1, newPos+1)
+                    rng += range(1, newPos + 1)
                 else:
-                    rng = range(curSq.getID()+1, newPos+1)
+                    rng = range(curSq.getID() + 1, newPos + 1)
 
                 newSq = self.checkMobility(rng, normalS, normalS[newPos])
-                if newSq == False: return
+                if newSq == False:
+                    return
 
         curSq.popChecker(chk)
         newSq.addChecker(chk)

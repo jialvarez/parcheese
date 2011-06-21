@@ -31,7 +31,7 @@ class Checker:
         Keyword arguments:
         player : The player that have this checker.
         """
-        self.inStairs = False       # In stairs ?
+        self.isInStairs = False       # In stairs ?
         self.isInNirvana = False    # In nirvana ?
         self.player = player        # Ref to player
         self.square = square        # Ref to square
@@ -40,13 +40,13 @@ class Checker:
         """ Return the position of checker """
         return self.square.getID()
 
-    def isInStairs(self):
+    def inStairs(self):
         """ Indicate if the checker is in the stairs """
-        return self.inStairs
+        return self.isInStairs
 
     def setInStairs(self):
         """ Set the checker in the stairs """
-        self.inStairs = True
+        self.isInStairs = True
 
     def inNirvana(self):
         """ Indicate if the checker is in the nirvana """

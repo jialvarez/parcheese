@@ -74,6 +74,22 @@ class Table:
             typ = 3 if (key in table_squares.nirvanasSQ) else 2
             self.gStair.append(square.Square(key, typ))
 
+    def selectChecker(self, player):
+        chkToMove = []
+        checkers = player.getCheckers()
+
+        # select the checkers that can be moved
+        i = 0
+        for chk in checkers:
+            if chk.getPos() <> 0:
+                chkToMove.append(i)
+            i += 1
+
+        from random import choice
+        selected = choice(chkToMove)
+
+        return selected
+
     def turn(self, player):
         """ Method where player throw the dice and makes his move """
 
@@ -82,14 +98,16 @@ class Table:
         logging.info("%s gets %s ", player.getName(), str(dVal))
 
         # Step 2 - Select checker to move
-        chkId = 0
+        # FOR TESTING PURPOSES ONLY: we select randomly
+        # a checker. This forces the movement of many checkers.
+        chkId = self.selectChecker(player)
         chk = player.getChecker(chkId)
         logging.info("%s select checker in %s ", player.getName(),
           str(chk.getPos()))
 
         # if pos is 0, this checker it is at home
         if chk.getPos() == 0:
-            logging.info("%s cannot move this checker, it is at home!", 
+            logging.info("%s cannot move this checker, it is at home!",\
                          player.getName())
             return
 
@@ -98,7 +116,8 @@ class Table:
             chkFive = player.checkersAtHome()
             if chkFive is not False: # you have checkers at home
                 res = player.toInitPos(chkFive, self.squares)
-                if res == True: return # chk moved to initial pos, else go on
+                if res == True:
+                    return # chk moved to initial pos, else go on
 
         # Check how many times the player has obtained six consecutively
         if dVal == 6:
@@ -108,10 +127,10 @@ class Table:
                 player.toHome(chk, self.squares)
                 return
             elif player.checkersAtHome() == False and \
-                        chk.isInStairs() == False:
+                        chk.inStairs() == False:
                 # you do not have checkers at home
                 dVal = dVal * 2
-                logging.info("%s do not have checkers at home, got 12!", 
+                logging.info("%s do not have checkers at home, got 12!",\
                              player.getName())
         else:
             player.resetSixTimes()
@@ -129,4 +148,5 @@ class Table:
         player.move(chk, dVal, self.squares, stairSquares)
 
         # If dice is 6 throw again
-        if dVal == 6: self.turn(player)
+        if dVal == 6:
+            self.turn(player)
