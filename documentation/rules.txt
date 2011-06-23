@@ -17,7 +17,7 @@
 
 [R05] When a player moves one of his checkers to a square previously occupied
   by another player's checker he have to move one of his checkers (not 
-  necessarily the last moved) 20 squares.
+  necessarily the last moved) 20 squares. (DONE)
 
 [R06] When a player moves one of his checkers to a square previously occupied
   by any two checkers (same color), a barrier is created in this square and 
@@ -28,7 +28,7 @@
   can jump over this NOT barrier.
 
 [R08] When a checker arrives to its Nirvana the owner of this checker have 
-  to move one of his other checkers 10 squares.
+  to move one of his other checkers 10 squares. (DONE)
 
 [R09] When a player has all his checkers in the board if he gets a 6, he moves 
   one of his checkers 12 squares. (DONE)
@@ -36,3 +36,9 @@
 [R10] When a player has a barrier somewhere in the board AND all his checkers
   are out of home AND he gets 6 in the dice (12 squares movement),
   the barrier automatically breaks and one of its checkers it will moved.
+
+[R11] When a player is in his turn, and none of their checkers can be moved,
+  the player losts the turn.
+
+[R12] When a player select a checker than can not be moved, but exists
+  another checker that can do it, he don't must lost his turn.

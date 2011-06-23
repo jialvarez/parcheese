@@ -81,14 +81,17 @@ class Table:
         # select the checkers that can be moved
         i = 0
         for chk in checkers:
-            if chk.getPos() <> 0:
+            if chk.getPos() <> 0 and not chk.inNirvana():
                 chkToMove.append(i)
-            i += 1
+                i += 1
 
-        from random import choice
-        selected = choice(chkToMove)
+        if len(chkToMove) > 0:
+            from random import choice
+            selected = choice(chkToMove)
+        else:
+            return None
 
-        return selected
+        return player.getChecker(selected)
 
     def turn(self, player):
         """ Method where player throw the dice and makes his move """
@@ -100,8 +103,14 @@ class Table:
         # Step 2 - Select checker to move
         # FOR TESTING PURPOSES ONLY: we select randomly
         # a checker. This forces the movement of many checkers.
-        chkId = self.selectChecker(player)
-        chk = player.getChecker(chkId)
+        chk = self.selectChecker(player)
+
+        # in this case, we can not move none of our checkers
+        if not chk:
+            logging.info("player %s can not move none of his checkers ", \
+                    player.getName())
+            return
+
         logging.info("%s select checker in %s ", player.getName(),
           str(chk.getPos()))
 
@@ -145,7 +154,14 @@ class Table:
             stairSquares = self.bStair
         else:                    # Yellow
             stairSquares = self.yStair
-        player.move(chk, dVal, self.squares, stairSquares)
+
+        result = player.move(chk, dVal, self.squares, stairSquares)
+
+        # if we got 10 or 20 reward, move checker this quantity
+        if result == 10 or result == 20:
+            chk = self.selectChecker(player)
+            if chk:
+                player.move(chk, result, self.squares, stairSquares)
 
         # If dice is 6 throw again
         if dVal == 6:

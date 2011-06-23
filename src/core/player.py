@@ -145,7 +145,7 @@ class Player:
         return False
 
     def checkMobility(self, rng, normalS, newSq):
-        """ see if any square in the range of movement is locked """
+        """ See if any square in the range of movement is locked """
         for sq in rng:
             # False: you can not move in this range
             if normalS[sq].isLocked():
@@ -156,6 +156,7 @@ class Player:
         return newSq
 
     def checkMobEnterStairs(self, startIdx, endIdx, squares, stairS):
+        """ See if any square in the range of movement is locked """
         rng = range(startIdx, endIdx)
         logging.info("Checking range: " + str(rng))
         newSq = self.checkMobility(rng, squares, stairS)
@@ -164,6 +165,27 @@ class Player:
             return
         else:
             return newSq
+
+    def checkIfNiamNiam(self, sq, chk, normalS, stairS):
+        """ Check if the movement causes a checker eat another """
+        # check if is there another checker in the square
+        enemyCheckers = sq.getCheckers()
+
+        if len(enemyCheckers) == 2:
+            for enemyChk in enemyCheckers:
+                if not sq.isSecure() and not sq.isStair() and \
+                                          not sq.isNirvana():
+                    if enemyChk.getColor() <> chk.getColor():
+                        logging.warn("Checker from player %s is lunched by "\
+                                     "checker from player %s",
+                                     enemyChk.getPlayer().getName(),\
+                                     chk.getPlayer().getName())
+
+                        # checker was lunched, go home!
+                        self.toHome(enemyCheckers[0], normalS)
+
+                        return True
+        return False
 
     def move(self, chk, dVal, normalS, stairS):
         """ Do the checker movement
@@ -174,13 +196,15 @@ class Player:
         stairS  : Ref to Stair squares of the player color
         """
 
+        normalMov = False                 # Check movement type
+
         curSq = chk.getSquare()           # Current square
 
         # Check type of movement (normal, from normal to stairs, stairs)
         newPos = curSq.getID() + dVal
 
         if chk.inStairs(): # Already in stairs
-            logging.debug("in-stairs movement ")
+            logging.debug("in-stairs movement for player %s", self.getName())
             # Check mobility : we pass the nirvana
             if (newPos) > stairS[7].getID():
                 logging.info("You cannot move this checker. Overpass nirvana")
@@ -197,19 +221,28 @@ class Player:
                 rng = range(startIdx, endIdx)
 
                 # Obtain reference to new square
-                newSq = self.checkMobility(rng,
+                try:
+                    newSq = self.checkMobility(rng,
                                            stairS,
                                            stairS[newPos - stairS[0].getID()])
+                except IndexError:
+                    # temporal workaround: break turn for this player
+                    return
 
                 if newSq == False:
                     return
         else:
             # Check if we are going to enter in the stairs
             if self.nearStairs(chk) and newPos > self.lastPos:
-                logging.debug("movement entering in stairs")
+                logging.debug("movement entering in stairs for player %s",\
+                                                            self.getName())
                 chk.setInStairs()
 
-                targetSq = stairS[newPos - self.lastPos - 1]
+                try:
+                    targetSq = stairS[newPos - self.lastPos - 1]
+                except IndexError:
+                    # temporal workaround: break turn for this player
+                    return
 
                 # get range until lastPosition
                 newSq = self.checkMobEnterStairs(curSq.getID() + 1, \
@@ -226,10 +259,11 @@ class Player:
 
                 if newSq == False:
                     return
-                # if we are here, we have a free target square,
-                # with nobody inside it
+                # if we are here, we have a free enemy target square,
+                # with no enemy inside it, or maybe in a secure square
             else:
-                logging.debug("Normal movement")
+                normalMov = True
+                logging.debug("Normal movement for player %s", self.getName())
                 if newPos > 68:
                     newPos -= 68
                     rng = range(curSq.getID(), 68)
@@ -241,10 +275,20 @@ class Player:
                 if newSq == False:
                     return
 
+        # take the checker out from start pos and move into the target pos
         curSq.popChecker(chk)
         newSq.addChecker(chk)
-        logging.info("checker moved to %s", str(chk.getPos()))
+        logging.info("checker from player %s moved to %s", self.getName(), \
+                                                           str(chk.getPos()))
+
+        # check if the checker eats another one with this movement
+        if self.checkIfNiamNiam(newSq, chk, normalS, stairS) == True:
+            # glutton checker's team moves through 20 squares
+            return 20
+
+        # check if the checker is in the highest level of conscience
         if newSq.isNirvana():
             # TODO : Check if all checkers are in nirvana (4)
             chk.setInNirvana()
             logging.info("IN NIRVANA!")
+            return 10

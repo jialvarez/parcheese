@@ -67,3 +67,7 @@ class Checker:
     def getSquare(self):
         """ Return the reference to the square where the checker is """
         return self.square
+
+    def getColor(self):
+        """ Return the color assigned to this checker via its player """
+        return self.player.getColor()
