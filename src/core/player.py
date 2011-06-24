@@ -108,18 +108,30 @@ class Player:
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
-        chkInSq = len(squ.getCheckers())
-        if chkInSq == 2:
+        chkInSq = squ.getCheckers()
+        if len(chkInSq) == 2:
             logging.warn("You cannot take out more checkers at initial pos,"
                           " it has been occupied by two of your checkers")
             return False
         else:
+            # add new checker
             squ.addChecker(chk)
             logging.info("%s move checker to initial position", self.name)
-            if chkInSq == 1:
-                logging.info("Square %d locked!", squ.getID())
-                squ.setLock(True) # lock this square
-            return True
+
+            # if now there is two checkers, test if eats enemy checker
+            if len(chkInSq) == 2:
+                if self.checkIfNiamNiam(squ, chk, squares) == False:
+                    logging.info("Square %d locked!", squ.getID())
+                    squ.setLock(True) # lock this square
+                    return True
+                else:
+                    logging.warn("Uh oh! Checker of player %s eats checker of"
+                                 " player %s, at home of first one",
+                                 chk.getPlayer().getName(),
+                                 chkInSq[0].getPlayer().getName())
+                    return 20
+            else: # only one of our checkers is in the init pos
+                return True
 
     def getColor(self):
         """ Get the color of the player """
@@ -166,15 +178,26 @@ class Player:
         else:
             return newSq
 
-    def checkIfNiamNiam(self, sq, chk, normalS, stairS):
-        """ Check if the movement causes a checker eat another """
+    def checkIfNiamNiam(self, sq, chk, normalS):
+        """ Check if the movement causes a checker eat another
+        Arguments
+        sq : square to analyse
+        chk : Checker that it is moving
+        normalS : Ref to Normal squares
+        """
+
+        # ref to home square
+        sqHome = normalS[self.initPos]
+
         # check if is there another checker in the square
         enemyCheckers = sq.getCheckers()
 
         if len(enemyCheckers) == 2:
             for enemyChk in enemyCheckers:
-                if not sq.isSecure() and not sq.isStair() and \
-                                          not sq.isNirvana():
+                # if not secure square, or is secure square but it is
+                # my home, and not is stair o nirvana square, niam niam
+                if (not sq.isSecure() or sqHome.getID() == sq.getID())\
+                        and not sq.isStair() and not sq.isNirvana():
                     if enemyChk.getColor() <> chk.getColor():
                         logging.warn("Checker from player %s is lunched by "\
                                      "checker from player %s",
@@ -282,7 +305,7 @@ class Player:
                                                            str(chk.getPos()))
 
         # check if the checker eats another one with this movement
-        if self.checkIfNiamNiam(newSq, chk, normalS, stairS) == True:
+        if self.checkIfNiamNiam(newSq, chk, normalS) == True:
             # glutton checker's team moves through 20 squares
             return 20
 

@@ -96,6 +96,9 @@ class Table:
     def turn(self, player):
         """ Method where player throw the dice and makes his move """
 
+        result = None
+        resOut = None
+
         # Step 1 - throw the dice!
         dVal = self.dice.throwDice()
         logging.info("%s gets %s ", player.getName(), str(dVal))
@@ -115,7 +118,7 @@ class Table:
           str(chk.getPos()))
 
         # if pos is 0, this checker it is at home
-        if chk.getPos() == 0:
+        if chk.getPos() == 0 and dVal <> 5:
             logging.info("%s cannot move this checker, it is at home!",\
                          player.getName())
             return
@@ -124,8 +127,8 @@ class Table:
         if dVal == 5:
             chkFive = player.checkersAtHome()
             if chkFive is not False: # you have checkers at home
-                res = player.toInitPos(chkFive, self.squares)
-                if res == True:
+                resOut = player.toInitPos(chkFive, self.squares)
+                if resOut == True:
                     return # chk moved to initial pos, else go on
 
         # Check how many times the player has obtained six consecutively
@@ -155,12 +158,17 @@ class Table:
         else:                    # Yellow
             stairSquares = self.yStair
 
-        result = player.move(chk, dVal, self.squares, stairSquares)
+        if resOut == None: # nothing happened taking out one of my checkers
+            result = player.move(chk, dVal, self.squares, stairSquares)
 
         # if we got 10 or 20 reward, move checker this quantity
-        if result == 10 or result == 20:
+        # resOut points eating when take out a checker to init pos
+        if result == 10 or result == 20 or resOut == 20:
             chk = self.selectChecker(player)
             if chk:
+                if resOut == 20: 
+                    result = resOut
+    
                 player.move(chk, result, self.squares, stairSquares)
 
         # If dice is 6 throw again

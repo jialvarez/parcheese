@@ -13,7 +13,7 @@
 [R04] When a player gets 5, and he has checkers at home, but there are one 
   of his checkers in the initial position and also another player's checker, 
   the checker of the opponent is moved to its home, and the player that gets 5
-  move one checker across 20 squares.
+  move one checker across 20 squares. (DONE)
 
 [R05] When a player moves one of his checkers to a square previously occupied
   by another player's checker he have to move one of his checkers (not 
