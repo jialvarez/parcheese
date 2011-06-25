@@ -36,6 +36,7 @@
 [R10] When a player has a barrier somewhere in the board AND all his checkers
   are out of home AND he gets 6 in the dice (12 squares movement),
   the barrier automatically breaks and one of its checkers it will moved.
+  (DONE)
 
 [R11] When a player is in his turn, and none of their checkers can be moved,
   the player losts the turn.

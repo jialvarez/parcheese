@@ -93,6 +93,20 @@ class Table:
 
         return player.getChecker(selected)
 
+    def checkIfHasBarrier(self, player, chkToMove):
+        """ Check if player has a barrier in game """
+
+        checkers = player.getCheckers()
+
+        for chk in checkers:
+            if chk.getSquare().isLocked() == True:
+                logging.info("player %s breaks barrier!", player.getName())
+                # select one checker of the barrier for breaking it
+                return chk
+
+        # no barrier, return checker previously selected
+        return chkToMove
+
     def turn(self, player):
         """ Method where player throw the dice and makes his move """
 
@@ -113,9 +127,6 @@ class Table:
             logging.info("player %s can not move none of his checkers ", \
                     player.getName())
             return
-
-        logging.info("%s select checker in %s ", player.getName(),
-          str(chk.getPos()))
 
         # if pos is 0, this checker it is at home
         if chk.getPos() == 0 and dVal <> 5:
@@ -138,12 +149,13 @@ class Table:
                 logging.info("Player obtained 6 three times, GO HOME!")
                 player.toHome(chk, self.squares)
                 return
-            elif player.checkersAtHome() == False and \
-                        chk.inStairs() == False:
+            elif player.checkersAtHome() == False:
                 # you do not have checkers at home
                 dVal = dVal * 2
                 logging.info("%s do not have checkers at home, got 12!",\
                              player.getName())
+                # check if we have barrier, with 12 we must break it
+                chk = self.checkIfHasBarrier(player, chk)
         else:
             player.resetSixTimes()
 

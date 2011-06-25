@@ -104,7 +104,9 @@ class Player:
         curSq.popChecker(chk)
         newSq = normalS[0]
         newSq.addChecker(chk)
-        logging.info("checker moved to %d", chk.getPos())
+        logging.info("checker from player %s moved to %d", \
+                                        chk.getPlayer().getName(),\
+                                        chk.getPos())
 
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
@@ -240,7 +242,7 @@ class Player:
         stairS  : Ref to Stair squares of the player color
         """
 
-        normalMov = False                 # Check movement type
+        movType = None                 # Check movement type
 
         curSq = chk.getSquare()           # Current square
 
@@ -278,9 +280,7 @@ class Player:
         else:
             # Check if we are going to enter in the stairs
             if self.nearStairs(chk) and newPos > self.lastPos:
-                logging.debug("movement entering in stairs for player %s",\
-                                                            self.getName())
-                chk.setInStairs()
+                movType = "enterStairs"
 
                 try:
                     targetSq = stairS[newPos - self.lastPos - 1]
@@ -306,7 +306,6 @@ class Player:
                 # if we are here, we have a free enemy target square,
                 # with no enemy inside it, or maybe in a secure square
             else:
-                normalMov = True
                 logging.debug("Normal movement for player %s", self.getName())
                 if newPos > 68:
                     newPos -= 68
@@ -318,6 +317,15 @@ class Player:
                 newSq = self.checkMobility(rng, normalS, normalS[newPos])
                 if newSq == False:
                     return
+
+        logging.info("%s select checker in %s ", chk.getPlayer().getName(),
+          str(chk.getPos()))
+
+        if movType == "enterStairs":
+            logging.debug("movement entering in stairs for player %s,"
+                          " to %s", self.getName(), newSq.getID())
+
+            chk.setInStairs()
 
         # take the checker out from start pos and move into the target pos
         curSq.popChecker(chk)
