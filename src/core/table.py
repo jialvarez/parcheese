@@ -2,6 +2,7 @@
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
+# Author: Luis Diaz Mas <piponazo@gmail.com>
 # Author: Edorta Garcia Gonzalez <edortagarcia@gmail.com>
 #
 # Parcheese is free software; you can redistribute it and/or
@@ -23,7 +24,6 @@ import table
 import square
 import table_squares
 
-#import sys
 import logging
 
 
@@ -166,9 +166,9 @@ class Table:
         if result == 10 or result == 20 or resOut == 20:
             chk = self.selectChecker(player)
             if chk:
-                if resOut == 20: 
+                if resOut == 20:
                     result = resOut
-    
+
                 player.move(chk, result, self.squares, stairSquares)
 
         # If dice is 6 throw again

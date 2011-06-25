@@ -2,6 +2,7 @@
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
+# Author: Luis Diaz Mas <piponazo@gmail.com>
 # Author: Edorta Garcia Gonzalez <edortagarcia@gmail.com>
 #
 # Parcheese is free software; you can redistribute it and/or
@@ -16,6 +17,8 @@
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
+
+import logging
 
 
 class Square:
@@ -36,6 +39,10 @@ class Square:
         """ Change the status of the Set this square as blocked """
         assert(type(val) == bool)
         self.locked = val
+        if val == True:
+            logging.info("Square %s locked!", self.squareId)
+        else:
+            logging.info("Square %s unlocked!", self.squareId)
 
     def isLocked(self):
         """ Get if this square is locked """
@@ -45,8 +52,6 @@ class Square:
         """ Add a checker to this square"""
         self.checkers.append(chk)
         chk.setSquare(self)
-        if len(self.checkers) == 2:
-            self.setLock(True) # lock this square
 
     def popChecker(self, chk):
         """ Remove and existing checker from the list of checkers """

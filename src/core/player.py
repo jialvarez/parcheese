@@ -2,6 +2,7 @@
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
+# Author: Luis Diaz Mas <piponazo@gmail.com>
 # Author: Edorta Garcia Gonzalez <edortagarcia@gmail.com>
 #
 # Parcheese is free software; you can redistribute it and/or
@@ -186,18 +187,24 @@ class Player:
         normalS : Ref to Normal squares
         """
 
+        # IMPORTANT: we arrive here when all the checking about barriers
+        # has been done. If we arrive here, checker CAN pass over here
+
         # ref to home square
         sqHome = normalS[self.initPos]
 
         # check if is there another checker in the square
         enemyCheckers = sq.getCheckers()
 
+        diffColors = False
+
+        # two checkers currently in this square
         if len(enemyCheckers) == 2:
-            for enemyChk in enemyCheckers:
-                # if not secure square, or is secure square but it is
-                # my home, and not is stair o nirvana square, niam niam
-                if (not sq.isSecure() or sqHome.getID() == sq.getID())\
-                        and not sq.isStair() and not sq.isNirvana():
+            # if not secure square, or is secure square but it is
+            # my home, and not is stair o nirvana square, niam niam
+            if (not sq.isSecure() or sqHome.getID() == sq.getID())\
+                    and not sq.isStair() and not sq.isNirvana():
+                for enemyChk in enemyCheckers:
                     if enemyChk.getColor() <> chk.getColor():
                         logging.warn("Checker from player %s is lunched by "\
                                      "checker from player %s",
@@ -207,7 +214,21 @@ class Player:
                         # checker was lunched, go home!
                         self.toHome(enemyCheckers[0], normalS)
 
+                        # if there is two checkers yet, lock the square
+                        if len(enemyCheckers) == 2:
+                            sq.setLock(True)
+
+                        diffColors = True
+
                         return True
+
+                # here nobody eats nobody, there is two checkers of same color
+                # (or different color but in a secure square)
+                if diffColors == False:
+                    sq.setLock(True)
+
+        # there is one checker only or two checkers
+        # (same or different color) in a secure square
         return False
 
     def move(self, chk, dVal, normalS, stairS):
@@ -300,11 +321,15 @@ class Player:
 
         # take the checker out from start pos and move into the target pos
         curSq.popChecker(chk)
+
+        # add checker to the new square
         newSq.addChecker(chk)
+
         logging.info("checker from player %s moved to %s", self.getName(), \
                                                            str(chk.getPos()))
 
         # check if the checker eats another one with this movement
+        # or if the square must be locked
         if self.checkIfNiamNiam(newSq, chk, normalS) == True:
             # glutton checker's team moves through 20 squares
             return 20

@@ -25,7 +25,7 @@
 
 [R07] When a player moves one of his checkers to a SECURE square previously
   occupied by two checkers of different color, the checker currently moving
-  can jump over this NOT barrier.
+  can jump over this NOT barrier. (DONE, check with UI)
 
 [R08] When a checker arrives to its Nirvana the owner of this checker have 
   to move one of his other checkers 10 squares. (DONE)
