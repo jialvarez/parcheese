@@ -33,6 +33,7 @@ def main():
     myGame = game.Game()
     myGame.addPlayer('neonigma', 'yellow')
     myGame.addPlayer('piponazo', 'green')
+    myGame.addPlayer('darkesa', 'red')
 
     # Testing players. This must be done with pygame and using mouse.
     # This loop is activated when the game starts

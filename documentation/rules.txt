@@ -39,7 +39,7 @@
   (DONE)
 
 [R11] When a player is in his turn, and none of their checkers can be moved,
-  the player losts the turn.
+  the player losts the turn. (DONE)
 
 [R12] When a player select a checker than can not be moved, but exists
-  another checker that can do it, he don't must lost his turn.
+  another checker that can do it, he don't must lost his turn. (DONE)
