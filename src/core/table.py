@@ -144,6 +144,16 @@ class Table:
                                  player.getName())
                     # check if we have barrier, with 12 we must break it
                     chk = player.checkIfHasBarrier(chk)
+                    newSq = player.checkIfChkCanMove(chk, dVal, self.squares,\
+                                                     stairSquares)
+
+                    # in this case, we can not move this checker
+                    if newSq == False:
+                        logging.info("player %s cannot move this checker ", \
+                                player.getName())
+                        # follow in player turn, but try another checker
+                        self.turn(player, 6)
+                        return
             else:
                 player.resetSixTimes()
 
@@ -162,7 +172,7 @@ class Table:
             self.getReward(player, result, stairSquares)
 
         # If dice is 6 throw again
-        if dVal == 6:
+        if dVal == 6 or dVal == 12:
             self.turn(player)
 
     def getReward(self, player, result, stairSquares):
