@@ -21,15 +21,16 @@
 
 import logging
 import sys
-sys.path.append('src/core')
-sys.path.append('src/gui')
+import os
 
-import game
-import table
-import player
+from src.core import game
+from src.core import table
+from src.core import player
 import pygame
-from pygame_stuff import load_image, ButtonRect, ButtonCircle
+
+from src.gui.pygame_stuff import load_image, ButtonRect, ButtonCircle
 from pygame.locals import *
+from pygame.sprite import Sprite
 
 
 class ParcheeseUI(game.Game):
@@ -47,16 +48,44 @@ class ParcheeseUI(game.Game):
         self.buttons = []
 
         #Create The Background
-        self.background, self.rect = load_image('board_640.png', -1)
+        self.background = self.load_bg('board_640.png')
+
+        self.addPlayer('neonigma', 'red')
+        self.addPlayer('piponazo', 'green')
+
+        self.initGame()
+
+        self.players = self.getPlayers()
+
+        self.drawCheckers()
 
         #Create buttons for adding players
-        self.addButton(ButtonRect(76, 448, 85, 20,
-                       AddPlayerC(self, "pipo", "red")))
-        self.addButton(ButtonRect(480, 448, 85, 20,
-                       AddPlayerC(self, "neo", "green")))
+        #self.addButton(ButtonRect(76, 448, 85, 20,
+        #               AddPlayerC(self, "pipo", "red")))
+        #self.addButton(ButtonRect(480, 448, 85, 20,
+        #               AddPlayerC(self, "neo", "green")))
 
         #Create button for starting game
-        self.addButton(ButtonCircle(350, 350, 30, StartGameC(self)))
+        #self.addButton(ButtonCircle(350, 350, 30, StartGameC(self)))
+
+
+    def drawCheckers(self):
+        for player in self.players:
+            checkers = player.getCheckers()
+            chkSprites = pygame.sprite.Group()
+            for chk in checkers:
+                chkSprite = CheckerSprite(chk)
+                chkSprites.add(chkSprite)
+
+        i = 0
+        
+        for checker in chkSprites:
+            chk = checker.getChk()
+            i += 20
+            self.screen.blit(checker.getImage(), (i,430))
+
+    def getScreen(self):
+        return self.screen
 
     def addButton(self, button):
         self.buttons = self.buttons + [button]
@@ -70,6 +99,7 @@ class ParcheeseUI(game.Game):
             self.clock.tick(60)
             self.__handleEvents()
             self.__draw()
+            self.nextTurn()
 
     def __handleEvents(self):
         """ Handle all events """
@@ -88,8 +118,10 @@ class ParcheeseUI(game.Game):
     def __draw(self):
         """ Draw graphics """
         self.screen.blit(self.background, (0, 0))
-        for button in self.buttons:
-            button.draw(self.screen)
+        #for button in self.buttons:
+            #button.draw(self.screen)
+        self.drawCheckers()
+                    
         # update if we want to repaint known areas
         pygame.display.flip()
 
@@ -98,6 +130,62 @@ class ParcheeseUI(game.Game):
         self.start()
         self.buttons = []
 
+    def load_bg(self, filename, transparent=False):
+        fullname = os.path.join('data', filename)
+        try: 
+            image = pygame.image.load(fullname)
+        except pygame.error, message:
+            raise SystemExit, message
+        image = image.convert()
+        if transparent:
+            color = image.get_at((0,0))
+            image.set_colorkey(color, RLEACCEL)
+        return image
+
+class CheckerSprite(Sprite):
+
+    def __init__(self, checker):
+        """ Constructor.
+
+        Keyword arguments:
+        player : The player that have this checker.
+        """
+        Sprite.__init__(self)
+        self.checker = checker
+
+        #box_list = Box(3)
+        #self.start = box_list.get_box_pos()
+
+        chkColor = self.checker.getPlayer().getColor()
+        self.image, self.rect = self.loadImgame(chkColor + "_checker.png", True)
+        self.image, self.rect = pygame.transform.scale(self.image, (30, 30)),\
+                                                        self.rect
+        self.rect = self.image.get_rect()
+        #self.pos_x = self.start[0]
+        #self.pos_y = self.start[1]
+        #self.checker_pos = (self.pos_x, self.pos_y)
+        self.image_w, self.image_h = self.image.get_size()
+        self.rect.centerx = 800 / 2
+        self.rect.centery = 800 / 2
+
+    def loadImgame(self, name, get_alpha):
+        """ Load image and return image object"""
+        try:
+            image = pygame.image.load(name)
+            if image.get_alpha is None:
+                image = image.convert()
+            else:
+                image = image.convert_alpha()
+        except pygame.error, message:
+            print 'Cannot load image:', name
+        else:
+            return image, image.get_rect()
+
+    def getImage(self):
+        return self.image
+
+    def getChk(self):
+        return self.checker
 
 class AddPlayerC:
     """ Command for add players """

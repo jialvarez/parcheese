@@ -44,6 +44,9 @@ class Game:
         """ Remove a player by its index in the list """
         self.players[idx:idx + 1] = []
 
+    def getPlayers(self):
+        return self.players
+
     def getPlayer(self, idx):
         """ Return instance of player by index in the list """
         return self.players[idx]
