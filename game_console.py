@@ -24,10 +24,11 @@ import sys
 
 from src.core import game
 
+
 def main():
     ''' Main function for parcheese game in console mode '''
 
-    logging.basicConfig(level=logging.DEBUG, 
+    logging.basicConfig(level=logging.DEBUG,
                         filename="/tmp/parcheese.log",
                         filemode="w")
     myGame = game.Game()

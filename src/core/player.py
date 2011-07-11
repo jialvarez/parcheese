@@ -103,8 +103,8 @@ class Player:
         curSq.popChecker(chk)
         newSq = normalS[0]
         newSq.addChecker(chk)
-        logging.info("checker from player %s moved to %d", \
-                                        chk.getPlayer().getName(),\
+        logging.info("checker from player %s moved to %d",
+                                        chk.getPlayer().getName(),
                                         chk.getPos())
 
     def toInitPos(self, chk, squares):
@@ -210,9 +210,9 @@ class Player:
                     and not sq.isStair() and not sq.isNirvana():
                 for enemyChk in enemyCheckers:
                     if enemyChk.getColor() <> chk.getColor():
-                        logging.warn("Checker from player %s is lunched by "\
+                        logging.warn("Checker from player %s is lunched by "
                                      "checker from player %s",
-                                     enemyChk.getPlayer().getName(),\
+                                     enemyChk.getPlayer().getName(),
                                      chk.getPlayer().getName())
 
                         # checker was lunched, go home!
@@ -338,9 +338,9 @@ class Player:
                     return False
 
                 # get range until lastPosition
-                newSq = self.checkMobEnterStairs(curSq.getID() + 1, \
-                                                 self.lastPos + 1, \
-                                                 normalS, \
+                newSq = self.checkMobEnterStairs(curSq.getID() + 1,
+                                                 self.lastPos + 1,
+                                                 normalS,
                                                  targetSq)
 
                 if newSq is not False:
@@ -397,7 +397,7 @@ class Player:
         # add checker to the new square
         newSq.addChecker(chk)
 
-        logging.info("checker from player %s moved to %s", self.getName(), \
+        logging.info("checker from player %s moved to %s", self.getName(),
                                                            str(chk.getPos()))
 
         # check if the checker eats another one with this movement

@@ -111,7 +111,7 @@ class Table:
 
             # in this case, we can not move none of our checkers
             if canMove == False:
-                logging.info("player %s cannot move none of his checkers ", \
+                logging.info("player %s cannot move none of his checkers ",
                         player.getName())
                 return
 
@@ -124,7 +124,7 @@ class Table:
 
             # in this case, we can not move this checker
             if newSq == False:
-                logging.info("player %s cannot move this checker ", \
+                logging.info("player %s cannot move this checker ",
                         player.getName())
                 # follow in player turn, but try another checker
                 self.turn(player, dVal)
@@ -140,16 +140,16 @@ class Table:
                 elif player.checkersAtHome() == False:
                     # you do not have checkers at home
                     dVal = dVal * 2
-                    logging.info("%s do not have checkers at home, got 12!",\
+                    logging.info("%s do not have checkers at home, got 12!",
                                  player.getName())
                     # check if we have barrier, with 12 we must break it
                     chk = player.checkIfHasBarrier(chk)
-                    newSq = player.checkIfChkCanMove(chk, dVal, self.squares,\
+                    newSq = player.checkIfChkCanMove(chk, dVal, self.squares,
                                                      stairSquares)
 
                     # in this case, we can not move this checker
                     if newSq == False:
-                        logging.info("player %s cannot move this checker ", \
+                        logging.info("player %s cannot move this checker ",
                                 player.getName())
                         # follow in player turn, but try another checker
                         self.turn(player, 6)
@@ -184,7 +184,7 @@ class Table:
                                               stairSquares)
             # in this case, we can not move this checker
             if newSq == False:
-                logging.info("player %s cannot move this checker ", \
+                logging.info("player %s cannot move this checker ",
                         player.getName())
                 # follow in player turn, but try another checker
                 self.getReward(player, result, stairSquares)
@@ -192,6 +192,6 @@ class Table:
 
             player.move(chk, chk.getSquare(), newSq, self.squares)
         else:
-            logging.info("player %s cannot move none of his checkers ", \
+            logging.info("player %s cannot move none of his checkers ",
                     player.getName())
             return
