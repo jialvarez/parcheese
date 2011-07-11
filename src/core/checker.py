@@ -31,7 +31,7 @@ class Checker:
         Keyword arguments:
         player : The player that have this checker.
         """
-        self.isInStairs = False       # In stairs ?
+        self.isInStairs = False     # In stairs ?
         self.isInNirvana = False    # In nirvana ?
         self.player = player        # Ref to player
         self.square = square        # Ref to square

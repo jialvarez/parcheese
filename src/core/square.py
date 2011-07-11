@@ -39,10 +39,6 @@ class Square:
         """ Change the status of the Set this square as blocked """
         assert(type(val) == bool)
         self.locked = val
-        if val == True:
-            logging.info("Square %s locked!", self.squareId)
-        else:
-            logging.info("Square %s unlocked!", self.squareId)
 
     def isLocked(self):
         """ Get if this square is locked """

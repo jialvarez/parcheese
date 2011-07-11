@@ -24,15 +24,17 @@ import sys
 
 from src.core import game
 
+
 def main():
     ''' Main function for parcheese game in console mode '''
 
-    logging.basicConfig(level=logging.DEBUG, 
+    logging.basicConfig(level=logging.DEBUG,
                         filename="/tmp/parcheese.log",
                         filemode="w")
     myGame = game.Game()
     myGame.addPlayer('neonigma', 'yellow')
     myGame.addPlayer('piponazo', 'green')
+    myGame.addPlayer('darkesa', 'red')
 
     # Testing players. This must be done with pygame and using mouse.
     # This loop is activated when the game starts
