@@ -2,8 +2,8 @@
 #
 # Copyright 2011 Parcheese Team.
 # Author: J. Ignacio Alvarez <neonigma@gmail.com>
-# Author: Edorta Garcia Gonzalez <edortagarcia@gmail.com>
 # Author: Luis Diaz Mas <piponazo@gmail.com>
+# Author: Edorta Garcia Gonzalez <edortagarcia@gmail.com>
 #
 # Parcheese is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

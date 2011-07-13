@@ -46,9 +46,12 @@ class ParcheeseUI(game.Game):
         self.going = True
         pygame.mouse.set_visible(1)
         self.buttons = []
+        self.image_path = os.getcwd()
+        self.image_path = os.path.join(self.image_path, 'data')
 
         #Create The Background
-        self.background = self.load_bg('board_640.png')
+        self.background = self.load_bg(os.path.join(self.image_path,
+                                                    'board_640.png'))
 
         self.addPlayer('neonigma', 'red')
         self.addPlayer('piponazo', 'green')
@@ -70,19 +73,50 @@ class ParcheeseUI(game.Game):
 
 
     def drawCheckers(self):
-        for player in self.players:
-            checkers = player.getCheckers()
-            chkSprites = pygame.sprite.Group()
-            for chk in checkers:
-                chkSprite = CheckerSprite(chk)
-                chkSprites.add(chkSprite)
+        """ Draw the checkers of all players in screen """
+        chkSprites = [] # list of sprites drawing checkers
+        coordinates = [] # coordinates of square
+        pyr_idx = 0 # player index
 
-        i = 0
-        
-        for checker in chkSprites:
-            chk = checker.getChk()
-            i += 20
-            self.screen.blit(checker.getImage(), (i,430))
+        # iterate players
+        for player in self.players:
+            idx = 0
+            checkers = player.getCheckers()
+
+            # add a group of sprites (four checker of a player)
+            # to the list of chkSprites
+            chkSprites.append(pygame.sprite.Group())
+
+            # iterate checkers for this player
+            for chk in checkers:
+                chkSprite = CheckerSprite(chk, self.image_path)
+
+                # add chkSprite with image checker to current group
+                chkSprites[pyr_idx].add(chkSprite)
+
+                # get square where this checker is placed
+                square = chk.getSquare()
+
+                # get coordinates for this square
+                coordinates.append(square.getCoord(chk, idx))
+
+                # inc square list coordinates
+                idx += 1
+
+            # inc player index
+            pyr_idx += 1
+
+            # reset index
+            idx = 0
+
+        # iterate over sprites GROUP
+        for chkSprite in chkSprites:
+            # iterate checker for current group
+            for checker in chkSprite:
+                chk = checker.getChk()
+                # paint checker in coordinates
+                self.screen.blit(checker.getImage(), coordinates[idx])
+                idx += 1
 
     def getScreen(self):
         return self.screen
@@ -99,7 +133,7 @@ class ParcheeseUI(game.Game):
             self.clock.tick(60)
             self.__handleEvents()
             self.__draw()
-            self.nextTurn()
+            #self.nextTurn()
 
     def __handleEvents(self):
         """ Handle all events """
@@ -109,6 +143,7 @@ class ParcheeseUI(game.Game):
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 self.going = False
             elif event.type == MOUSEBUTTONDOWN:
+                print pygame.mouse.get_pos()
                 self.__handleMouseDown(pygame.mouse.get_pos())
 
     def __handleMouseDown(self, (x, y)):
@@ -144,7 +179,7 @@ class ParcheeseUI(game.Game):
 
 class CheckerSprite(Sprite):
 
-    def __init__(self, checker):
+    def __init__(self, checker, image_path):
         """ Constructor.
 
         Keyword arguments:
@@ -152,12 +187,15 @@ class CheckerSprite(Sprite):
         """
         Sprite.__init__(self)
         self.checker = checker
+        self.image_path = image_path
 
         #box_list = Box(3)
         #self.start = box_list.get_box_pos()
 
         chkColor = self.checker.getPlayer().getColor()
-        self.image, self.rect = self.loadImgame(chkColor + "_checker.png", True)
+        self.image, self.rect = self.loadImgame(os.path.join(self.image_path, 
+                                                chkColor + "_checker.png"), 
+                                                True)
         self.image, self.rect = pygame.transform.scale(self.image, (30, 30)),\
                                                         self.rect
         self.rect = self.image.get_rect()

@@ -59,6 +59,42 @@ class Square:
     def getID(self):
         """ Get ID of square """
         return self.squareId
+    
+    def getCoord(self, chk=None, chkNum=None):
+        """ Get coordinates values for a square """
+        from table_squares import tableSquares,\
+                                yellowSquares,\
+                                redSquares,\
+                                greenSquares
+
+        if self.squareId == 0:
+            return self._getStartCoord(chk, chkNum)
+
+        if self.squareId <= 68:
+            return tableSquares[self.squareId]
+        elif self.squareId > 68 and self.squareId <= 76:
+            return yellowSquares[self.squareId]
+        elif self.squareId > 76 and self.squareId <= 84:
+            return blueSquares[self.squareId]
+        elif self.squareId > 84 and self.squareId <= 92:
+            return redSquares[self.squareId]
+        elif self.squareId > 92 and self.squareId <= 100:
+            return greenSquares[self.squareId]
+
+    def _getStartCoord(self, chk, chkNum):
+        if chk.getColor() == "red":
+            switch = {0:(20, 435),
+                      1:(180, 435),
+                      2:(180, 580),
+                      3:(20, 580),
+                     }
+        elif chk.getColor() == "green":
+            switch = {0:(425, 435),
+                      1:(590, 435),
+                      2:(425, 580),
+                      3:(590, 580),
+                     }               
+        return switch[chkNum]
 
     def getCheckers(self):
         """ Get the list of checkers in this square """
