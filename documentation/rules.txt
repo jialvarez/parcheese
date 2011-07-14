@@ -43,3 +43,5 @@
 
 [R12] When a player select a checker than can not be moved, but exists
   another checker that can do it, he don't must lost his turn. (DONE)
+
+[R13] When a player takes all their checkers to its Nirvana end the game.

@@ -1,0 +1,44 @@
+### TODO LIST ###
+
+########################################################
+######## DESIGN, REFACTORING & STYLE PYTHON ############
+########################################################
+- Generate a class diagram with Umbrello and update it.
+- Follow a convention about how to name private variabels and members in
+  classes. 
+
+########################################################
+#################### DOCUMENTATION #####################
+########################################################
+- Design diagram of classes and modules (Xmind?).
+- Document all the existing classes and methods! (at least)
+
+########################################################
+###################### FEATURES ########################
+########################################################
+
+#################### CLASSES ###########################
+## General
+- Accessibility version for disabled people.
+- Once the game is started if one player wants to restart the game a petition
+  must be send to the others players and act adequately.
+- At the start of the game all the players throw the dice and the player how
+  obtains the bigger value play first.
+- Then we have to reorder the players in order to follow a clock direction in
+  turns.
+
+## Checker
+- When a checker arrives to nirvana throw the signal [C1].
+  
+## Player
+
+## Game
+
+## Table
+
+#################### FUNCTIONALITIES ###########################
+## ARCHITECTURE
+- Follow a stric Model View Controller game model. See:
+  http://ezide.com/games/writing-games.html
+
+- Add multi-player.
