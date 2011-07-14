@@ -25,7 +25,7 @@ class Checker:
     contains this value and it would be redundant.
     """
 
-    def __init__(self, player, square):
+    def __init__(self, player, square, cid):
         """ Constructor.
 
         Keyword arguments:
@@ -35,6 +35,7 @@ class Checker:
         self.isInNirvana = False    # In nirvana ?
         self.player = player        # Ref to player
         self.square = square        # Ref to square
+        self.cid = cid              # Checker id
 
     def getPos(self):
         """ Return the position of checker """
@@ -71,3 +72,7 @@ class Checker:
     def getColor(self):
         """ Return the color assigned to this checker via its player """
         return self.player.getColor()
+
+    def getID(self):
+        """ Return the id of the checker """
+        return self.cid

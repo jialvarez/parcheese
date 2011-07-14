@@ -26,6 +26,7 @@ import os
 from src.core import game
 from src.core import table
 from src.core import player
+from src.core import dice
 import pygame
 
 from src.gui.pygame_stuff import load_image, ButtonRect, ButtonCircle
@@ -50,13 +51,15 @@ class ParcheeseUI(game.Game):
         self.image_path = os.path.join(self.image_path, 'data')
 
         #Create The Background
-        self.background = self.load_bg(os.path.join(self.image_path,
+        self.background = self.loadBg(os.path.join(self.image_path,
                                                     'board_640.png'))
 
         self.addPlayer('neonigma', 'red')
         self.addPlayer('piponazo', 'green')
 
         self.initGame()
+
+        self.dice = dice.Dice()
 
         self.players = self.getPlayers()
 
@@ -74,7 +77,7 @@ class ParcheeseUI(game.Game):
 
     def drawCheckers(self):
         """ Draw the checkers of all players in screen """
-        chkSprites = [] # list of sprites drawing checkers
+        self.chkSprites = [] # list of sprites drawing checkers
         coordinates = [] # coordinates of square
         pyr_idx = 0 # player index
 
@@ -85,14 +88,14 @@ class ParcheeseUI(game.Game):
 
             # add a group of sprites (four checker of a player)
             # to the list of chkSprites
-            chkSprites.append(pygame.sprite.Group())
+            self.chkSprites.append(pygame.sprite.Group())
 
             # iterate checkers for this player
             for chk in checkers:
                 chkSprite = CheckerSprite(chk, self.image_path)
 
                 # add chkSprite with image checker to current group
-                chkSprites[pyr_idx].add(chkSprite)
+                self.chkSprites[pyr_idx].add(chkSprite)
 
                 # get square where this checker is placed
                 square = chk.getSquare()
@@ -110,7 +113,7 @@ class ParcheeseUI(game.Game):
             idx = 0
 
         # iterate over sprites GROUP
-        for chkSprite in chkSprites:
+        for chkSprite in self.chkSprites:
             # iterate checker for current group
             for checker in chkSprite:
                 chk = checker.getChk()
@@ -131,9 +134,39 @@ class ParcheeseUI(game.Game):
     def loop(self):
         while self.going:
             self.clock.tick(60)
-            self.__handleEvents()
-            self.__draw()
-            self.nextTurn()
+            self.__draw() # first time for background
+            for player in self.players:
+                dVal = self.dice.throwDice()
+                logging.info("%s gets %s ", player.getName(), str(dVal))
+
+                self.manageTurn(player, dVal, None)
+                self.__draw()
+
+    def blockUntilSelect(self, player):
+        chk = self.__handleEvents()
+        while chk == False or chk.getPlayer() <> player:
+            chk = self.__handleEvents()
+        return chk
+    
+    def manageTurn(self, player, dVal, chkID):
+        chk = self.blockUntilSelect(player)
+        chkID = chk.getID()
+
+        processTurn = self.nextTurn(player, dVal, chkID)
+
+        while type(processTurn) == int or processTurn == False:
+            if type(processTurn) == int:
+                self.__draw()
+
+            if processTurn == 6 or processTurn == 12:
+                processTurn = self.dice.throwDice()
+                logging.info("%s gets %s ", player.getName(), str(dVal))
+
+            logging.info("ProcessTurn is: %s", processTurn)
+            chk = self.blockUntilSelect(player)
+            chkID = chk.getID()
+
+            processTurn = self.nextTurn(player, processTurn, chkID)
 
     def __handleEvents(self):
         """ Handle all events """
@@ -143,8 +176,23 @@ class ParcheeseUI(game.Game):
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 self.going = False
             elif event.type == MOUSEBUTTONDOWN:
-                print pygame.mouse.get_pos()
                 self.__handleMouseDown(pygame.mouse.get_pos())
+                if event.button == 1:
+                    return self.__selectChecker(event)
+
+        return False
+
+    def __selectChecker(self, event):
+        for chkSprite in self.chkSprites:
+            for checker in chkSprite:
+                chk = checker.getChk()
+                square = chk.getSquare()
+                coord = square.getCoord(chk, chk.getID())
+                imgDim = checker.getImgDim()
+                if coord[0] < event.pos[0] < (coord[0] + imgDim[0]):
+                    if coord[1] < event.pos[1] < (coord[1] + imgDim[1]):
+                        return chk
+        return False
 
     def __handleMouseDown(self, (x, y)):
         for button in self.buttons:
@@ -165,7 +213,7 @@ class ParcheeseUI(game.Game):
         self.start()
         self.buttons = []
 
-    def load_bg(self, filename, transparent=False):
+    def loadBg(self, filename, transparent=False):
         fullname = os.path.join('data', filename)
         try: 
             image = pygame.image.load(fullname)
@@ -224,6 +272,9 @@ class CheckerSprite(Sprite):
 
     def getChk(self):
         return self.checker
+
+    def getImgDim(self):
+        return (self.image_w, self.image_h)
 
 class AddPlayerC:
     """ Command for add players """

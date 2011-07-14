@@ -58,9 +58,9 @@ class Game:
             self.turn = 0
         return self.players[self.turn]
 
-    def nextTurn(self):
+    def nextTurn(self, player, dVal, chkID):
         """ Run next turn """
-        self.table.turn(self.nextPlayer())
+        return self.table.turn(player, dVal, chkID)
 
     def start(self):
         """ Once the game is started some operations are blocked """

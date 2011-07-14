@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with Parcheese. If not, see <http://www.gnu.org/licenses/>.
 
-import dice
 import checker
 import table
 import square
@@ -31,7 +30,6 @@ class Table:
 
     def __init__(self, players):
         self.players = players  # get the players
-        self.dice = dice.Dice() # get the dice
 
         # construct game table with 68 squares + specific for each color
         # 0: yellow, 1: blue, 2: red, 3: green
@@ -74,8 +72,10 @@ class Table:
             typ = 3 if (key in table_squares.nirvanasSQ) else 2
             self.gStair.append(square.Square(key, typ))
 
-    def turn(self, player, dVal=0):
+    def turn(self, player, dVal=0, chkID=None):
         """ Method where player throw the dice and makes his move """
+
+        logging.info("Received checker: %s", chkID)
 
         result = None
         resOut = None
@@ -90,21 +90,16 @@ class Table:
         else:                    # Yellow
             stairSquares = self.yStair
 
-        # Step 1 - throw the dice!
-        if dVal == 0:
-            dVal = self.dice.throwDice()
-        logging.info("%s gets %s ", player.getName(), str(dVal))
-
         # If dice is 5 and player have checkers in home, take out one of them
         if dVal == 5:
             chkFive = player.checkersAtHome()
             if chkFive is not False: # you have checkers at home
                 resOut = player.toInitPos(chkFive, self.squares)
                 if resOut == True:
-                    return # chk moved to initial pos, else go on
+                    return True # chk moved to initial pos, else go on
 
         # If we got 20 moving to initial pos, we eat a enemy checker
-        if resOut <> 20:
+        if resOut <> 20 and resOut <> 10 and dVal <> 20 and dVal <> 10:
             # Step 2 - Select checker to move
             canMove = player.checkIfPlayerCanMove(dVal, self.squares,
                                                   stairSquares)
@@ -113,11 +108,15 @@ class Table:
             if canMove == False:
                 logging.info("player %s cannot move none of his checkers ",
                         player.getName())
-                return
+                return True
 
-            # FOR TESTING PURPOSES ONLY: we select randomly
-            # a checker. This forces the movement of many checkers.
-            chk = player.selectChecker(dVal, stairSquares)
+            # check if selected checker is in Nirvana or at home
+            chk = player.selectChecker(dVal, stairSquares, chkID)
+
+            if chk == False: # in Nirvana or at home
+                return False
+
+            logging.info("Selected checker: %s", chkID)
 
             newSq = player.checkIfChkCanMove(chk, dVal, self.squares,
                                               stairSquares)
@@ -127,8 +126,8 @@ class Table:
                 logging.info("player %s cannot move this checker ",
                         player.getName())
                 # follow in player turn, but try another checker
-                self.turn(player, dVal)
-                return
+                #self.turn(player, dVal, chkID)
+                return dVal
 
             # Check how many times the player has obtained six consecutively
             if dVal == 6:
@@ -136,7 +135,7 @@ class Table:
                     # Move checker to HOME
                     logging.info("Player obtained 6 three times, GO HOME!")
                     player.toHome(chk, self.squares)
-                    return
+                    return True
                 elif player.checkersAtHome() == False:
                     # you do not have checkers at home
                     dVal = dVal * 2
@@ -152,8 +151,8 @@ class Table:
                         logging.info("player %s cannot move this checker ",
                                 player.getName())
                         # follow in player turn, but try another checker
-                        self.turn(player, 6)
-                        return
+                        #self.turn(player, 6, chkID)
+                        return 6
             else:
                 player.resetSixTimes()
 
@@ -169,29 +168,33 @@ class Table:
             if resOut == 20:
                 result = resOut
 
-            self.getReward(player, result, stairSquares)
+            #self.getReward(player, result, stairSquares, chkID)
+            canMove = player.checkIfPlayerCanMove(result, self.squares,
+                                                  stairSquares)
+            if canMove == True:
+                chk = player.selectChecker(result, stairSquares, chkID)
+                newSq = player.checkIfChkCanMove(chk, result, self.squares,
+                                                  stairSquares)
+                # in this case, we can not move this checker
+                if newSq == False:
+                    logging.info("player %s cannot move this checker ",
+                            player.getName())
+                    # follow in player turn, but try another checker
+                    #self.getReward(player, result, stairSquares)
+                    return result
+    
+                player.move(chk, chk.getSquare(), newSq, self.squares)
+            else:
+                logging.info("player %s cannot move none of his checkers ",
+                        player.getName())
+                return True
 
         # If dice is 6 throw again
         if dVal == 6 or dVal == 12:
-            self.turn(player)
+            #self.turn(player, 0, chkID)
+            return dVal
+        
+        return True
 
-    def getReward(self, player, result, stairSquares):
-        canMove = player.checkIfPlayerCanMove(result, self.squares,
-                                              stairSquares)
-        if canMove == True:
-            chk = player.selectChecker(result, stairSquares)
-            newSq = player.checkIfChkCanMove(chk, result, self.squares,
-                                              stairSquares)
-            # in this case, we can not move this checker
-            if newSq == False:
-                logging.info("player %s cannot move this checker ",
-                        player.getName())
-                # follow in player turn, but try another checker
-                self.getReward(player, result, stairSquares)
-                return
+#    def getReward(self, player, result, stairSquares, chkID):
 
-            player.move(chk, chk.getSquare(), newSq, self.squares)
-        else:
-            logging.info("player %s cannot move none of his checkers ",
-                    player.getName())
-            return

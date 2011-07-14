@@ -62,7 +62,7 @@ class Player:
     def initCheckers(self, homeSquare):
         """ Initialize checkers of player """
         # list comprehension for getting the checkers list (3 others at home)
-        self.checkers = [Checker(self, homeSquare) for chk in range(4)]
+        self.checkers = [Checker(self, homeSquare, chk) for chk in range(4)]
 
     def resetSixTimes(self):
         """ Reset the sixTimes counter. """
@@ -243,17 +243,18 @@ class Player:
 
         return result
 
-    def selectChecker(self, result, stairSquares):
+    def selectChecker(self, result, stairSquares, chkID):
         """ Select a checker for player in current turn """
         import random
         checkers = self.getCheckers()
 
-        chk = checkers[random.randint(0, 3)]
+        chk = checkers[chkID]
+        #chk = checkers[random.randint(0, 3)]
 
-        while chk.getPos() == 0 or chk.inNirvana():
-            chk = checkers[random.randint(0, 3)]
-
-        return chk
+        if chk.getPos() == 0 or chk.inNirvana():
+            return False
+        else:
+            return chk
 
     def checkIfPlayerCanMove(self, result, normalS, stairSquares):
         """ Check if the player can move in the current turn """
