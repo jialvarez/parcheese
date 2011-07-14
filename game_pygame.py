@@ -133,7 +133,7 @@ class ParcheeseUI(game.Game):
             self.clock.tick(60)
             self.__handleEvents()
             self.__draw()
-            #self.nextTurn()
+            self.nextTurn()
 
     def __handleEvents(self):
         """ Handle all events """
