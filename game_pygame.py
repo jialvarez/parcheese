@@ -153,6 +153,10 @@ class ParcheeseUI(game.Game):
         chkID = chk.getID()
 
         processTurn = self.nextTurn(player, dVal, chkID)
+        if processTurn <> False:
+            result = processTurn
+        else:
+            result = dVal
 
         while type(processTurn) == int or processTurn == False:
             if type(processTurn) == int:
@@ -160,13 +164,15 @@ class ParcheeseUI(game.Game):
 
             if processTurn == 6 or processTurn == 12:
                 processTurn = self.dice.throwDice()
-                logging.info("%s gets %s ", player.getName(), str(dVal))
+                logging.info("%s gets %s ", player.getName(), str(processTurn))
 
-            logging.info("ProcessTurn is: %s", processTurn)
+            if type(processTurn) == int:
+                result = processTurn
+
             chk = self.blockUntilSelect(player)
             chkID = chk.getID()
 
-            processTurn = self.nextTurn(player, processTurn, chkID)
+            processTurn = self.nextTurn(player, result, chkID)
 
     def __handleEvents(self):
         """ Handle all events """
