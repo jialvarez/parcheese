@@ -99,7 +99,7 @@ class Table:
                     return True # chk moved to initial pos, else go on
 
         # If we got 20 moving to initial pos, we eat a enemy checker
-        if resOut <> 20 and resOut <> 10 and dVal <> 20 and dVal <> 10:
+        if resOut <> 20 and resOut <> 10:
             # Step 2 - Select checker to move
             canMove = player.checkIfPlayerCanMove(dVal, self.squares,
                                                   stairSquares)

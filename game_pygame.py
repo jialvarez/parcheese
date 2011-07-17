@@ -56,12 +56,16 @@ class ParcheeseUI(game.Game):
 
         self.addPlayer('neonigma', 'red')
         self.addPlayer('piponazo', 'green')
+        self.addPlayer('darkesa', 'yellow')
+        self.addPlayer('frawny', 'blue')
 
         self.initGame()
 
         self.dice = dice.Dice()
 
+        # turn of the game: in sense of the hands of the clock
         self.players = self.getPlayers()
+        self.players.reverse()
 
         self.drawCheckers()
 
@@ -137,19 +141,34 @@ class ParcheeseUI(game.Game):
             self.__draw() # first time for background
             for player in self.players:
                 dVal = self.dice.throwDice()
+                #dVal = 1
                 logging.info("%s gets %s ", player.getName(), str(dVal))
 
                 self.manageTurn(player, dVal, None)
                 self.__draw()
 
-    def blockUntilSelect(self, player):
-        chk = self.__handleEvents()
+    def __blockUntilSelect(self, player, dVal):
+        chk = None
+
+        if dVal == 5:
+          for chkSprite in self.chkSprites:
+              for checker in chkSprite:
+                  chkSearch = checker.getChk()
+                  if chkSearch.getPlayer().getName() == player.getName():
+                      if chkSearch.getPos() == 0:
+                          chk = chkSearch
+                          
+        if chk == None:
+            chk = self.__handleEvents()
+        else:
+            return chk # move without select (get out from home)
+
         while chk == False or chk.getPlayer() <> player:
             chk = self.__handleEvents()
         return chk
     
     def manageTurn(self, player, dVal, chkID):
-        chk = self.blockUntilSelect(player)
+        chk = self.__blockUntilSelect(player, dVal)
         chkID = chk.getID()
 
         processTurn = self.nextTurn(player, dVal, chkID)
@@ -169,7 +188,7 @@ class ParcheeseUI(game.Game):
             if type(processTurn) == int:
                 result = processTurn
 
-            chk = self.blockUntilSelect(player)
+            chk = self.__blockUntilSelect(player, result)
             chkID = chk.getID()
 
             processTurn = self.nextTurn(player, result, chkID)

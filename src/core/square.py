@@ -62,10 +62,9 @@ class Square:
     
     def getCoord(self, chk=None, chkNum=None):
         """ Get coordinates values for a square """
-        from table_squares import tableSquares,\
-                                yellowSquares,\
-                                redSquares,\
-                                greenSquares
+        from table_squares import tableSquares, yellowSquares,\
+                                  redSquares, blueSquares,\
+                                  greenSquares
 
         if self.squareId == 0:
             return self._getStartCoord(chk, chkNum)
@@ -94,6 +93,19 @@ class Square:
                       2:(425, 580),
                       3:(590, 580),
                      }               
+        elif chk.getColor() == "yellow":
+            switch = {0:(425, 175),
+                      1:(590, 175),
+                      2:(425, 20),
+                      3:(590, 20),
+                     }
+        elif chk.getColor() == "blue":
+            switch = {0:(20, 175),
+                      1:(180, 175),
+                      2:(180, 20),
+                      3:(20, 20),
+                    }
+
         return switch[chkNum]
 
     def getCheckers(self):
