@@ -101,14 +101,14 @@ class ParcheeseUI(game.Game):
                 # add chkSprite with image checker to current group
                 self.chkSprites[pyr_idx].add(chkSprite)
 
-                # get square where this checker is placed
-                square = chk.getSquare()
+                ## get square where this checker is placed
+                #square = chk.getSquare()
 
-                # get coordinates for this square
-                coordinates.append(square.getCoord(chk, idx))
+                ## get coordinates for this square
+                #coordinates.append(square.getCoord(chk, idx))
 
-                # inc square list coordinates
-                idx += 1
+                ## inc square list coordinates
+                #idx += 1
 
             # inc player index
             pyr_idx += 1
@@ -118,12 +118,70 @@ class ParcheeseUI(game.Game):
 
         # iterate over sprites GROUP
         for chkSprite in self.chkSprites:
+            idx = 0
+            chkCheckers = []
+            zeros = 0
+
             # iterate checker for current group
             for checker in chkSprite:
                 chk = checker.getChk()
-                # paint checker in coordinates
-                self.screen.blit(checker.getImage(), coordinates[idx])
-                idx += 1
+                # don't process barriers if already did it in processBarrier
+                if chk not in chkCheckers:
+                    barrier = self._processBarrier(chk,
+                                                   checker.getImage(),
+                                                   chkCheckers,
+                                                   self.chkSprites)
+
+                if chk not in chkCheckers:
+                    # paint checker in coordinates
+                    square = chk.getSquare()
+                    if chk.getPos() == 0:
+                        coordinates = square.getCoord(chk, zeros)
+                        zeros += 1
+                    else:
+                        coordinates = square.getCoord()
+
+                    self.screen.blit(checker.getImage(), coordinates)
+
+    def _processBarrier(self, searChk, searchChkImg, chkCheckers, chkSprites):
+        normalChks = []
+        schSqu = searChk.getPos()
+
+        for chkSprite in chkSprites:
+            for checker in chkSprite:
+                chk = checker.getChk()
+                squ = chk.getPos()
+    
+                if searChk <> chk and schSqu == squ and schSqu <> 0:
+                    coordinates = chk.getSquare().getCoord(chk)
+                    # get coordinates for barrier
+                    coorDrawing = self._getIncDecCoord(squ, coordinates)
+
+                    # paint two checkers of the barrier
+                    self.screen.blit(checker.getImage(), coorDrawing[0])
+                    self.screen.blit(searchChkImg, coorDrawing[1])
+    
+                    chkCheckers.append(chk)
+                    chkCheckers.append(searChk)
+    
+                    # tell barrier detected!
+                    return True
+
+        return False
+
+    def _getIncDecCoord(self, squPos, coordinates):
+        if ((squPos >= 1 and squPos <= 8) or \
+           (squPos >= 26 and squPos <= 42) or \
+           (squPos >= 60 and squPos <= 76) or \
+           (squPos >= 85 and squPos <= 92)):
+            return [(coordinates[0], coordinates[1] - 15),
+                    (coordinates[0], coordinates[1] + 15)]
+        elif ((squPos >= 9 and squPos <= 25) or \
+           (squPos >= 43 and squPos <= 59) or \
+           (squPos >= 77 and squPos <= 84) or \
+           (squPos >= 93 and squPos <= 100)):
+            return [(coordinates[0] - 15, coordinates[1]),
+                    (coordinates[0] + 15, coordinates[1])]
 
     def getScreen(self):
         return self.screen
@@ -136,9 +194,9 @@ class ParcheeseUI(game.Game):
         pygame.quit()   # Close the Pygame window
 
     def loop(self):
+        self.__draw() # first time for background
         while self.going:
             self.clock.tick(60)
-            self.__draw() # first time for background
             for player in self.players:
                 dVal = self.dice.throwDice()
                 #dVal = 1

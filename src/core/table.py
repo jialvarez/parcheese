@@ -97,6 +97,8 @@ class Table:
                 resOut = player.toInitPos(chkFive, self.squares)
                 if resOut == True:
                     return True # chk moved to initial pos, else go on
+                elif resOut == False:
+                    return True
 
         # If we got 20 moving to initial pos, we eat a enemy checker
         if resOut <> 20 and resOut <> 10:
