@@ -230,6 +230,13 @@ class ParcheeseUI(game.Game):
         chkID = chk.getID()
 
         processTurn = self.nextTurn(player, dVal, chkID)
+
+        if processTurn == -1:
+            # recall for processing break barrier at 
+            # initial position with dVal = 5, sending -1
+            # for advice
+            processTurn = self.nextTurn(player, -1, chkID)
+
         if processTurn <> False:
             result = processTurn
         else:

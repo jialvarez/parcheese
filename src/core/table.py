@@ -98,7 +98,14 @@ class Table:
                 if resOut == True:
                     return True # chk moved to initial pos, else go on
                 elif resOut == False:
-                    return True
+                    return -1
+
+        if dVal == -1:
+            # we jump previous condition, because we can't take out more
+            # checkers from home, but take all others below in consideration
+            chk = player.checkIfHasBarrier(None) # I'm sure there's a barrier
+            chkID = chk.getID()
+            dVal = 5
 
         # If we got 20 moving to initial pos, we eat a enemy checker
         if resOut <> 20 and resOut <> 10:
