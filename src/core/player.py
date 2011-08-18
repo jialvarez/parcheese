@@ -145,6 +145,15 @@ class Player:
                 return chk
         return False
 
+    def getNumChksAtHome(self):
+        """ Return number of the checkers at home """
+        number = 0
+        for chk in self.checkers:
+            if chk.getPos() == 0:
+                number += 1
+
+        return number
+
     def nearStairs(self, chk):
         """ Determine if a checker is near its stairs """
         # Note that high movements are of 6, 10 and 20

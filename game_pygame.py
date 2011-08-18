@@ -87,7 +87,6 @@ class ParcheeseUI(game.Game):
 
         # iterate players
         for player in self.players:
-            idx = 0
             checkers = player.getCheckers()
 
             # add a group of sprites (four checker of a player)
@@ -101,24 +100,11 @@ class ParcheeseUI(game.Game):
                 # add chkSprite with image checker to current group
                 self.chkSprites[pyr_idx].add(chkSprite)
 
-                ## get square where this checker is placed
-                #square = chk.getSquare()
-
-                ## get coordinates for this square
-                #coordinates.append(square.getCoord(chk, idx))
-
-                ## inc square list coordinates
-                #idx += 1
-
             # inc player index
             pyr_idx += 1
 
-            # reset index
-            idx = 0
-
         # iterate over sprites GROUP
         for chkSprite in self.chkSprites:
-            idx = 0
             chkCheckers = []
             zeros = 0
 
@@ -131,10 +117,14 @@ class ParcheeseUI(game.Game):
                                                    checker.getImage(),
                                                    chkCheckers,
                                                    self.chkSprites)
-
+                
+                # if chk wasn't processed in processBarrrier,
+                # draw it separately
                 if chk not in chkCheckers:
-                    # paint checker in coordinates
                     square = chk.getSquare()
+
+                    # detect checkers at home, indexes changes for these,
+                    # so we fix index number for each one
                     if chk.getPos() == 0:
                         coordinates = square.getCoord(chk, zeros)
                         zeros += 1
@@ -154,13 +144,15 @@ class ParcheeseUI(game.Game):
     
                 if searChk <> chk and schSqu == squ and schSqu <> 0:
                     coordinates = chk.getSquare().getCoord(chk)
+
                     # get coordinates for barrier
                     coorDrawing = self._getIncDecCoord(squ, coordinates)
 
                     # paint two checkers of the barrier
                     self.screen.blit(checker.getImage(), coorDrawing[0])
                     self.screen.blit(searchChkImg, coorDrawing[1])
-    
+   
+                    # don't process this checkers again
                     chkCheckers.append(chk)
                     chkCheckers.append(searChk)
     
@@ -226,6 +218,11 @@ class ParcheeseUI(game.Game):
         return chk
     
     def manageTurn(self, player, dVal, chkID):
+        # if player has all checkers at home, pass turn
+        if dVal <> 5 and player.getNumChksAtHome() == 4:
+            return
+
+        # wait until player select one checker
         chk = self.__blockUntilSelect(player, dVal)
         chkID = chk.getID()
 
