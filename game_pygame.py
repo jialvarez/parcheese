@@ -78,7 +78,6 @@ class ParcheeseUI(game.Game):
         #Create button for starting game
         #self.addButton(ButtonCircle(350, 350, 30, StartGameC(self)))
 
-
     def drawCheckers(self):
         """ Draw the checkers of all players in screen """
         self.chkSprites = [] # list of sprites drawing checkers
@@ -117,7 +116,7 @@ class ParcheeseUI(game.Game):
                                                    checker.getImage(),
                                                    chkCheckers,
                                                    self.chkSprites)
-                
+
                 # if chk wasn't processed in processBarrrier,
                 # draw it separately
                 if chk not in chkCheckers:
@@ -132,6 +131,7 @@ class ParcheeseUI(game.Game):
                         coordinates = square.getCoord()
 
                     self.screen.blit(checker.getImage(), coordinates)
+                    chk.setCoordPos(coordinates)
 
     def _processBarrier(self, searChk, searchChkImg, chkCheckers, chkSprites):
         normalChks = []
@@ -141,7 +141,7 @@ class ParcheeseUI(game.Game):
             for checker in chkSprite:
                 chk = checker.getChk()
                 squ = chk.getPos()
-    
+
                 if searChk <> chk and schSqu == squ and schSqu <> 0:
                     coordinates = chk.getSquare().getCoord(chk)
 
@@ -151,11 +151,15 @@ class ParcheeseUI(game.Game):
                     # paint two checkers of the barrier
                     self.screen.blit(checker.getImage(), coorDrawing[0])
                     self.screen.blit(searchChkImg, coorDrawing[1])
-   
+
+                    # update coordinates position for these checkers
+                    chk.setCoordPos(coorDrawing[0])
+                    searChk.setCoordPos(coorDrawing[1])
+
                     # don't process this checkers again
                     chkCheckers.append(chk)
                     chkCheckers.append(searChk)
-    
+
                     # tell barrier detected!
                     return True
 
@@ -201,13 +205,13 @@ class ParcheeseUI(game.Game):
         chk = None
 
         if dVal == 5:
-          for chkSprite in self.chkSprites:
-              for checker in chkSprite:
-                  chkSearch = checker.getChk()
-                  if chkSearch.getPlayer().getName() == player.getName():
-                      if chkSearch.getPos() == 0:
-                          chk = chkSearch
-                          
+            for chkSprite in self.chkSprites:
+                for checker in chkSprite:
+                    chkSearch = checker.getChk()
+                    if chkSearch.getPlayer().getName() == player.getName():
+                        if chkSearch.getPos() == 0:
+                            chk = chkSearch
+
         if chk == None:
             chk = self.__handleEvents()
         else:
@@ -216,7 +220,7 @@ class ParcheeseUI(game.Game):
         while chk == False or chk.getPlayer() <> player:
             chk = self.__handleEvents()
         return chk
-    
+
     def manageTurn(self, player, dVal, chkID):
         # if player has all checkers at home, pass turn
         if dVal <> 5 and player.getNumChksAtHome() == 4:
@@ -229,7 +233,7 @@ class ParcheeseUI(game.Game):
         processTurn = self.nextTurn(player, dVal, chkID)
 
         if processTurn == -1:
-            # recall for processing break barrier at 
+            # recall for processing break barrier at
             # initial position with dVal = 5, sending -1
             # for advice
             processTurn = self.nextTurn(player, -1, chkID)
@@ -274,8 +278,16 @@ class ParcheeseUI(game.Game):
             for checker in chkSprite:
                 chk = checker.getChk()
                 square = chk.getSquare()
-                coord = square.getCoord(chk, chk.getID())
+                #coord = square.getCoord(chk, chk.getID())
+                coord = chk.getCoordPos()
                 imgDim = checker.getImgDim()
+
+                coordSrc = (coord[0], coord[1])
+                coordTgt = (coord[0] + imgDim[0], coord[1] + imgDim[1])
+
+                pygame.draw.line(self.screen, (0, 0, 255), coordSrc, coordTgt)
+                pygame.display.flip()
+
                 if coord[0] < event.pos[0] < (coord[0] + imgDim[0]):
                     if coord[1] < event.pos[1] < (coord[1] + imgDim[1]):
                         return chk
@@ -291,7 +303,7 @@ class ParcheeseUI(game.Game):
         #for button in self.buttons:
             #button.draw(self.screen)
         self.drawCheckers()
-                    
+
         # update if we want to repaint known areas
         pygame.display.flip()
 
@@ -302,15 +314,16 @@ class ParcheeseUI(game.Game):
 
     def loadBg(self, filename, transparent=False):
         fullname = os.path.join('data', filename)
-        try: 
+        try:
             image = pygame.image.load(fullname)
         except pygame.error, message:
             raise SystemExit, message
         image = image.convert()
         if transparent:
-            color = image.get_at((0,0))
+            color = image.get_at((0, 0))
             image.set_colorkey(color, RLEACCEL)
         return image
+
 
 class CheckerSprite(Sprite):
 
@@ -328,8 +341,8 @@ class CheckerSprite(Sprite):
         #self.start = box_list.get_box_pos()
 
         chkColor = self.checker.getPlayer().getColor()
-        self.image, self.rect = self.loadImgame(os.path.join(self.image_path, 
-                                                chkColor + "_checker.png"), 
+        self.image, self.rect = self.loadImgame(os.path.join(self.image_path,
+                                                chkColor + "_checker.png"),
                                                 True)
         self.image, self.rect = pygame.transform.scale(self.image, (30, 30)),\
                                                         self.rect
@@ -362,6 +375,7 @@ class CheckerSprite(Sprite):
 
     def getImgDim(self):
         return (self.image_w, self.image_h)
+
 
 class AddPlayerC:
     """ Command for add players """

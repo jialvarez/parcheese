@@ -36,6 +36,7 @@ class Checker:
         self.player = player        # Ref to player
         self.square = square        # Ref to square
         self.cid = cid              # Checker id
+        self.position = (0, 0)      # Coord position
 
     def getPos(self):
         """ Return the position of checker """
@@ -76,3 +77,9 @@ class Checker:
     def getID(self):
         """ Return the id of the checker """
         return self.cid
+
+    def setCoordPos(self, coordinates):
+        self.position = coordinates
+
+    def getCoordPos(self):
+        return self.position
