@@ -99,6 +99,8 @@ class Table:
                     return True # chk moved to initial pos, else go on
                 elif resOut == False:
                     return -1
+                elif resOut == 20:
+                    return 20
 
         if dVal == -1:
             # we jump previous condition, because we can't take out more

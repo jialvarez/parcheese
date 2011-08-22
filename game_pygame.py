@@ -62,6 +62,7 @@ class ParcheeseUI(game.Game):
         self.initGame()
 
         self.dice = dice.Dice()
+        self.counterDC = 0
 
         # turn of the game: in sense of the hands of the clock
         self.players = self.getPlayers()
@@ -194,12 +195,31 @@ class ParcheeseUI(game.Game):
         while self.going:
             self.clock.tick(60)
             for player in self.players:
-                dVal = self.dice.throwDice()
-                #dVal = 1
+                #dVal = self.dice.throwDice()
+                dVal = self.throwDice()
                 logging.info("%s gets %s ", player.getName(), str(dVal))
 
                 self.manageTurn(player, dVal, None)
                 self.__draw()
+
+    def throwDice(self):
+        return self.dice.throwDice()
+        
+        # TEST: a checker enemy in other checker's init pos was eated
+        # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 5, 3, 3, 3, 3]
+
+        # TEST: 2 checkers in init pos, and player wants take another one out
+        # dices = [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+
+        # TEST: selecting a checker enemy in other checker's init pos
+        # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+        # TEST: selecting a checker enemy in other checker's secure pos
+        # dices = [6, 1, 6, 6, 4, 1, 1, 5, 6, 2, 1, 1, 1, 1]
+
+        # dVal = dices[self.counterDC]
+        # self.counterDC += 1
+        # return dVal
 
     def __blockUntilSelect(self, player, dVal):
         chk = None
@@ -248,7 +268,8 @@ class ParcheeseUI(game.Game):
                 self.__draw()
 
             if processTurn == 6 or processTurn == 12:
-                processTurn = self.dice.throwDice()
+                #processTurn = self.dice.throwDice()
+                processTurn = self.throwDice()
                 logging.info("%s gets %s ", player.getName(), str(processTurn))
 
             if type(processTurn) == int:
@@ -282,11 +303,11 @@ class ParcheeseUI(game.Game):
                 coord = chk.getCoordPos()
                 imgDim = checker.getImgDim()
 
-                coordSrc = (coord[0], coord[1])
-                coordTgt = (coord[0] + imgDim[0], coord[1] + imgDim[1])
+                #coordSrc = (coord[0], coord[1])
+                #coordTgt = (coord[0] + imgDim[0], coord[1] + imgDim[1])
 
-                pygame.draw.line(self.screen, (0, 0, 255), coordSrc, coordTgt)
-                pygame.display.flip()
+                #pygame.draw.line(self.screen, (0, 0, 255), coordSrc, coordTgt)
+                #pygame.display.flip()
 
                 if coord[0] < event.pos[0] < (coord[0] + imgDim[0]):
                     if coord[1] < event.pos[1] < (coord[1] + imgDim[1]):

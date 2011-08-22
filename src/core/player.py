@@ -107,14 +107,30 @@ class Player:
                                         chk.getPlayer().getName(),
                                         chk.getPos())
 
+    def _testEatsAtHome(self, squ, chk, squares):
+       if self.checkIfNiamNiam(squ, chk, squares) == False:
+           self.setMovType('locked')
+           squ.setLock(True) # lock this square
+           return True
+       else:
+           logging.warn("Uh oh! Checker of player %s eats checker of"
+                        " enemy at home of first one",
+                        chk.getPlayer().getName())
+           return 20
+
     def toInitPos(self, chk, squares):
         """ Move a checker to the initial position of the player """
         squ = squares[self.initPos]
         chkInSq = squ.getCheckers()
         if len(chkInSq) == 2:
-            logging.warn("You cannot take out more checkers at initial pos,"
-                          " it has been occupied by two of your checkers")
-            return False
+            if self._testEatsAtHome(squ, chk, squares) == True:
+                return False
+            else:
+                # add new checker
+                squ.addChecker(chk)
+                logging.info("%s move checker to initial position", self.name)
+
+                return 20
         else:
             # add new checker
             squ.addChecker(chk)
@@ -122,15 +138,7 @@ class Player:
 
             # if now there is two checkers, test if eats enemy checker
             if len(chkInSq) == 2:
-                if self.checkIfNiamNiam(squ, chk, squares) == False:
-                    self.setMovType('locked')
-                    squ.setLock(True) # lock this square
-                    return True
-                else:
-                    logging.warn("Uh oh! Checker of player %s eats checker of"
-                                 " enemy at home of first one",
-                                 chk.getPlayer().getName())
-                    return 20
+                return self._testEatsAtHome(squ, chk, squares)
             else: # only one of our checkers is in the init pos
                 return True
 
@@ -225,7 +233,7 @@ class Player:
                                      chk.getPlayer().getName())
 
                         # checker was lunched, go home!
-                        self.toHome(enemyCheckers[0], normalS)
+                        self.toHome(enemyChk, normalS)
 
                         # if there is two checkers yet, lock the square
                         if len(enemyCheckers) == 2:
