@@ -203,7 +203,7 @@ class ParcheeseUI(game.Game):
                 self.__draw()
 
     def throwDice(self):
-        return self.dice.throwDice()
+        #return self.dice.throwDice()
         
         # TEST: a checker enemy in other checker's init pos was eated
         # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 5, 3, 3, 3, 3]
@@ -217,9 +217,12 @@ class ParcheeseUI(game.Game):
         # TEST: selecting a checker enemy in other checker's secure pos
         # dices = [6, 1, 6, 6, 4, 1, 1, 5, 6, 2, 1, 1, 1, 1]
 
-        # dVal = dices[self.counterDC]
-        # self.counterDC += 1
-        # return dVal
+        # TEST: selecting a checker enemy in other checker's secure pos
+        dices = [1, 5, 1, 1, 1, 2, 2, 2, 1, 5, 1, 1, 1, 3, 1, 1, 2, 5, 1, 1, 1, 6, 1, 1, 1]
+
+        dVal = dices[self.counterDC]
+        self.counterDC += 1
+        return dVal
 
     def __blockUntilSelect(self, player, dVal):
         chk = None
@@ -246,8 +249,18 @@ class ParcheeseUI(game.Game):
         if dVal <> 5 and player.getNumChksAtHome() == 4:
             return
 
-        # wait until player select one checker
-        chk = self.__blockUntilSelect(player, dVal)
+        chkSelected = None
+
+        if player.checkersAtHome() == False:
+            if dVal == 6 or dVal == 12:
+                chkSelected = player.checkIfHasBarrier(None)
+
+        if chkSelected == None:
+            # wait until player select one checker
+            chk = self.__blockUntilSelect(player, dVal)
+        else:
+            chk = chkSelected
+
         chkID = chk.getID()
 
         processTurn = self.nextTurn(player, dVal, chkID)
