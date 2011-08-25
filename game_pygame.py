@@ -29,7 +29,7 @@ from src.core import player
 from src.core import dice
 import pygame
 
-from src.gui.pygame_stuff import load_image, ButtonRect, ButtonCircle
+from src.gui.pygame_stuff import load_image
 from pygame.locals import *
 from pygame.sprite import Sprite
 
@@ -69,15 +69,6 @@ class ParcheeseUI(game.Game):
         self.players.reverse()
 
         self.drawCheckers()
-
-        #Create buttons for adding players
-        #self.addButton(ButtonRect(76, 448, 85, 20,
-        #               AddPlayerC(self, "pipo", "red")))
-        #self.addButton(ButtonRect(480, 448, 85, 20,
-        #               AddPlayerC(self, "neo", "green")))
-
-        #Create button for starting game
-        #self.addButton(ButtonCircle(350, 350, 30, StartGameC(self)))
 
     def drawCheckers(self):
         """ Draw the checkers of all players in screen """
@@ -203,7 +194,7 @@ class ParcheeseUI(game.Game):
                 self.__draw()
 
     def throwDice(self):
-        #return self.dice.throwDice()
+        return self.dice.throwDice()
         
         # TEST: a checker enemy in other checker's init pos was eated
         # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 5, 3, 3, 3, 3]
@@ -218,16 +209,34 @@ class ParcheeseUI(game.Game):
         # dices = [6, 1, 6, 6, 4, 1, 1, 5, 6, 2, 1, 1, 1, 1]
 
         # TEST: selecting a checker enemy in other checker's secure pos
-        dices = [1, 5, 1, 1, 1, 2, 2, 2, 1, 5, 1, 1, 1, 3, 1, 1, 2, 5, 1, 1, 1, 6, 1, 1, 1]
+        # dices = [1, 5, 1, 1, 1, 2, 2, 2, 1, 5, 1, 1, 1, 3, 1, 1, 2, 5, 1, 1, 1, 6, 1, 1, 1]
 
-        dVal = dices[self.counterDC]
-        self.counterDC += 1
-        return dVal
+        # TEST: breaking a barrier with 5
+        # dices = [1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1]
 
-    def __blockUntilSelect(self, player, dVal):
+        # TEST: if player can not move, pass turn
+        #dices = [5, 5, 1, 1, 
+        #         1, 6, 6, 4, 1, 1, 
+        #         5, 6, 6, 4, 1, 1, 
+        #         1, 5, 1, 1, 
+        #         1, 5, 1, 1,
+        #         5, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1,
+        #         1, 5, 1, 1]
+
+        #dVal = dices[self.counterDC]
+        #self.counterDC += 1
+        #return dVal
+
+    def __blockUntilSelect(self, player, dVal, breakBarrier = True):
         chk = None
 
-        if dVal == 5:
+        if dVal == 5 and breakBarrier == True:
             for chkSprite in self.chkSprites:
                 for checker in chkSprite:
                     chkSearch = checker.getChk()
@@ -244,9 +253,54 @@ class ParcheeseUI(game.Game):
             chk = self.__handleEvents()
         return chk
 
+    def checkBreakBarrier(self, processTurn, player, chkID, dVal):
+        breakBarrier = True
+
+        if processTurn == -1:
+            # recall for processing break barrier at
+            # initial position with dVal = 5, sending -1
+            # for advice
+            checkers = player.getCheckers()
+
+            for chk in checkers:
+                chkToMove = player.checkIfHasBarrier(chk)
+                if chk == chkToMove:
+                    # this chk is not in a barrier
+                    movement = player.checkIfChkCanMove(chk, dVal, 
+                                             self.getNormalSquares(),
+                                             self.getStairSquares(player))
+
+                    # this chk can move, it is not necessary break barrier
+                    if movement <> False:
+                        breakBarrier = False
+
+            logging.info("break barrier: %s", breakBarrier)
+
+            if breakBarrier == True:
+                processTurn = self.nextTurn(player, -1, chkID, False)
+            else:
+                chk = self.__blockUntilSelect(player, dVal, breakBarrier)
+                chkID = chk.getID()
+                logging.info("barrier in dVal: %s and chkID: %s", dVal, chkID)
+                processTurn = self.nextTurn(player, -1, chkID, True)
+                return True
+
+        if processTurn <> False:
+            return processTurn
+        else:
+            return dVal
+
     def manageTurn(self, player, dVal, chkID):
         # if player has all checkers at home, pass turn
         if dVal <> 5 and player.getNumChksAtHome() == 4:
+            return
+
+        # if player can not move, pass turn
+        playerCanMove = player.checkIfPlayerCanMove(dVal, 
+                                            self.getNormalSquares(),
+                                            self.getStairSquares(player))
+
+        if playerCanMove == False:
             return
 
         chkSelected = None
@@ -265,16 +319,11 @@ class ParcheeseUI(game.Game):
 
         processTurn = self.nextTurn(player, dVal, chkID)
 
-        if processTurn == -1:
-            # recall for processing break barrier at
-            # initial position with dVal = 5, sending -1
-            # for advice
-            processTurn = self.nextTurn(player, -1, chkID)
+        result = self.checkBreakBarrier(processTurn, player, chkID, dVal)
 
-        if processTurn <> False:
-            result = processTurn
-        else:
-            result = dVal
+        # manual select succedeed
+        if result == True:
+            return
 
         while type(processTurn) == int or processTurn == False:
             if type(processTurn) == int:
@@ -289,9 +338,17 @@ class ParcheeseUI(game.Game):
                 result = processTurn
 
             chk = self.__blockUntilSelect(player, result)
+
             chkID = chk.getID()
 
             processTurn = self.nextTurn(player, result, chkID)
+
+            result = self.checkBreakBarrier(processTurn, player, chkID, dVal)
+
+            # manual select succedeed
+            if result == True:
+                return
+
 
     def __handleEvents(self):
         """ Handle all events """

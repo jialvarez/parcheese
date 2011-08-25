@@ -282,7 +282,9 @@ class Player:
         for chk in checkers:
             res = self.checkMovement(chk, result, normalS, stairSquares)
 
-            if res <> False and chk.getPos() <> 0 and not chk.inNirvana():
+            if res <> False and (chk.getPos() <> 0 or \
+                                (chk.getPos() == 0 and result == 5)) \
+                            and not chk.inNirvana():
                 return True
 
         return False
@@ -293,10 +295,14 @@ class Player:
         checkers = self.getCheckers()
 
         for chk in checkers:
-            if chk.getSquare().isLocked() == True:
-                logging.info("player %s breaks barrier!", self.getName())
-                # select one checker of the barrier for breaking it
-                return chk
+            squ = chk.getSquare()
+            if squ.isLocked() == True:
+                chkBarrier = squ.getCheckers()
+
+                if chkBarrier[0].getColor() == chkBarrier[1].getColor():
+                    logging.info("player %s breaks barrier!", self.getName())
+                    # select one checker of the barrier for breaking it
+                    return chk
 
         # no barrier, return checker previously selected
         return chkToMove

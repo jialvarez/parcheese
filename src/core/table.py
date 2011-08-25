@@ -72,7 +72,22 @@ class Table:
             typ = 3 if (key in table_squares.nirvanasSQ) else 2
             self.gStair.append(square.Square(key, typ))
 
-    def turn(self, player, dVal=0, chkID=None):
+    def getNormalSquares(self):
+        """ Get normal squares of the board """
+        return self.squares
+
+    def getStairSquares(self, player):
+        """ Get stair squares of the board """
+        if player.getColor() == "blue":
+           return self.bStair
+        elif player.getColor() == "red":
+            return self.rStair
+        elif player.getColor() == "yellow":
+            return self.yStair
+        elif player.getColor() == "green":
+            return self.gStair
+
+    def turn(self, player, dVal=0, chkID=None, manualSelect=False):
         """ Method where player throw the dice and makes his move """
 
         logging.info("Received checker: %s", chkID)
@@ -103,10 +118,13 @@ class Table:
                     return 20
 
         if dVal == -1:
-            # we jump previous condition, because we can't take out more
-            # checkers from home, but take all others below in consideration
-            chk = player.checkIfHasBarrier(None) # I'm sure there's a barrier
-            chkID = chk.getID()
+            # if we can select a checker, we select it, otherwise enter here
+            if manualSelect == False:
+                # we jump previous condition, because we can't take out more
+                # checkers from home, but take all others below in consideration
+                chk = player.checkIfHasBarrier(None) # I'm sure there's a barrier
+                chkID = chk.getID()
+
             dVal = 5
 
         # If we got 20 moving to initial pos, we eat a enemy checker

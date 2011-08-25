@@ -58,11 +58,19 @@ class Game:
             self.turn = 0
         return self.players[self.turn]
 
-    def nextTurn(self, player, dVal, chkID):
+    def nextTurn(self, player, dVal, chkID, manualSelect=False):
         """ Run next turn """
-        return self.table.turn(player, dVal, chkID)
+        return self.table.turn(player, dVal, chkID, manualSelect)
 
     def start(self):
         """ Once the game is started some operations are blocked """
         self.playing = True
         self.table = table.Table(self.players)
+
+    def getNormalSquares(self):
+        """ Return normal squares of the board """
+        return self.table.getNormalSquares()
+
+    def getStairSquares(self, player):
+        """ Return stair squares of the board """
+        return self.table.getStairSquares(player)
