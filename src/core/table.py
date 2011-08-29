@@ -122,7 +122,8 @@ class Table:
             if manualSelect == False:
                 # we jump previous condition, because we can't take out more
                 # checkers from home, but take all others below in consideration
-                chk = player.checkIfHasBarrier(None) # I'm sure there's a barrier
+                chk = player.checkIfHasBarrier(None, 5, self.squares,
+                                               stairSquares)
                 chkID = chk.getID()
 
             dVal = 5
@@ -155,8 +156,10 @@ class Table:
                 logging.info("player %s cannot move this checker ",
                         player.getName())
                 # follow in player turn, but try another checker
-                #self.turn(player, dVal, chkID)
-                return dVal
+                if dVal == 6 or dVal == 12:
+                    return -6
+                else:
+                    return dVal
 
             # Check how many times the player has obtained six consecutively
             if dVal == 6:
@@ -171,17 +174,18 @@ class Table:
                     logging.info("%s do not have checkers at home, got 12!",
                                  player.getName())
                     # check if we have barrier, with 12 we must break it
-                    chk = player.checkIfHasBarrier(chk)
+                    chk = player.checkIfHasBarrier(chk, dVal, self.squares,
+                                                   stairSquares)
                     newSq = player.checkIfChkCanMove(chk, dVal, self.squares,
                                                      stairSquares)
 
                     # in this case, we can not move this checker
-                    if newSq == False:
-                        logging.info("player %s cannot move this checker ",
-                                player.getName())
-                        # follow in player turn, but try another checker
-                        #self.turn(player, 6, chkID)
-                        return 6
+                    #if newSq == False:
+                    #    logging.info("player %s cannot move this checker, return -6 ",
+                    #            player.getName())
+                    #    # follow in player turn, but try another checker
+                    #    #self.turn(player, 6, chkID)
+                    #    return -12
             else:
                 player.resetSixTimes()
 

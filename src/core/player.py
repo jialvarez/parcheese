@@ -289,7 +289,7 @@ class Player:
 
         return False
 
-    def checkIfHasBarrier(self, chkToMove):
+    def checkIfHasBarrier(self, chkToMove, result, normalS, stairSquares):
         """ Check if player has a barrier in game """
 
         checkers = self.getCheckers()
@@ -300,9 +300,10 @@ class Player:
                 chkBarrier = squ.getCheckers()
 
                 if chkBarrier[0].getColor() == chkBarrier[1].getColor():
-                    logging.info("player %s breaks barrier!", self.getName())
                     # select one checker of the barrier for breaking it
-                    return chk
+                    if self.checkIfChkCanMove(chk, result, normalS, stairSquares):
+                        logging.info("player %s breaks barrier!", self.getName())
+                        return chk
 
         # no barrier, return checker previously selected
         return chkToMove
