@@ -130,7 +130,6 @@ class Table:
 
         # If we got 20 moving to initial pos, we eat a enemy checker
         if resOut <> 20 and resOut <> 10:
-            # Step 2 - Select checker to move
             canMove = player.checkIfPlayerCanMove(dVal, self.squares,
                                                   stairSquares)
 
@@ -216,7 +215,8 @@ class Table:
                     #self.getReward(player, result, stairSquares)
                     return result
     
-                player.move(chk, chk.getSquare(), newSq, self.squares)
+                #player.move(chk, chk.getSquare(), newSq, self.squares)
+                return result
             else:
                 logging.info("player %s cannot move none of his checkers ",
                         player.getName())

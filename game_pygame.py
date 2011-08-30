@@ -194,7 +194,7 @@ class ParcheeseUI(game.Game):
                 self.__draw()
 
     def throwDice(self):
-        #return self.dice.throwDice()
+        return self.dice.throwDice()
         
         # TEST: a checker enemy in other checker's init pos was eated
         # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 5, 3, 3, 3, 3]
@@ -215,7 +215,7 @@ class ParcheeseUI(game.Game):
         # dices = [1, 5, 1, 1, 1, 4, 1, 1, 1, 5, 1, 1, 1, 5, 1, 1, 1]
 
         # TEST: if player can not move, pass turn
-        #dices = [5, 5, 1, 1, 
+        # dices = [5, 5, 1, 1, 
         #         1, 6, 6, 4, 1, 1, 
         #         5, 6, 6, 4, 1, 1, 
         #         1, 5, 1, 1, 
@@ -230,7 +230,7 @@ class ParcheeseUI(game.Game):
         #         1, 5, 1, 1]
 
         # TEST: if player got two barriers, take both in consideration
-        #dices = [5, 5, 1, 1, 
+        # dices = [5, 5, 1, 1, 
         #         1, 6, 6, 4, 1, 1, 
         #         5, 6, 6, 4, 1, 1, 
         #         1, 5, 1, 1, 
@@ -244,9 +244,15 @@ class ParcheeseUI(game.Game):
         #         1, 5, 1, 1,
         #         1, 5, 1, 1]
 
-        dVal = dices[self.counterDC]
-        self.counterDC += 1
-        return dVal
+        # TEST: eat a simple checker
+        # dices = [1, 6, 6, 4, 1, 1, 1, 3, 1, 1, 1]
+
+        # TEST: eat a checker when you have more checkers in game
+        # dices = [1, 5, 1, 1, 1, 6, 6, 4, 1, 1, 1, 4, 1, 1, 1, 1]
+
+        #dVal = dices[self.counterDC]
+        #self.counterDC += 1
+        #return dVal
 
     def __blockUntilSelect(self, player, dVal, breakBarrier = True):
         chk = None
