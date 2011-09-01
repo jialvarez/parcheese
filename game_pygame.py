@@ -194,7 +194,7 @@ class ParcheeseUI(game.Game):
                 self.__draw()
 
     def throwDice(self):
-        return self.dice.throwDice()
+        # return self.dice.throwDice()
         
         # TEST: a checker enemy in other checker's init pos was eated
         # dices = [5, 6, 6, 4, 1, 1, 1, 1, 1, 1, 5, 3, 3, 3, 3]
@@ -250,9 +250,21 @@ class ParcheeseUI(game.Game):
         # TEST: eat a checker when you have more checkers in game
         # dices = [1, 5, 1, 1, 1, 6, 6, 4, 1, 1, 1, 4, 1, 1, 1, 1]
 
-        #dVal = dices[self.counterDC]
-        #self.counterDC += 1
-        #return dVal
+        # TEST: checking stairs and nirvana
+        #dices = [1, 5, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 5,
+        #               1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 6, 6, 4,
+        #               1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 5, 1, 1, 1, 1, 1, 1, 1,
+        #               1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+        # TEST: checking stairs and nirvana
+        dices = [1, 5, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 5,
+                       1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4,
+                       1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 6, 6, 4, 1, 1, 1, 5, 1, 1, 1, 6, 6, 4,
+                       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+
+        dVal = dices[self.counterDC]
+        self.counterDC += 1
+        return dVal
 
     def __blockUntilSelect(self, player, dVal, breakBarrier = True):
         chk = None

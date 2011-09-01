@@ -88,7 +88,7 @@ class Table:
             return self.gStair
 
     def turn(self, player, dVal=0, chkID=None, manualSelect=False):
-        """ Method where player throw the dice and makes his move """
+        """ Method where player throw the dice and makes his movement """
 
         logging.info("Received checker: %s", chkID)
 
@@ -107,6 +107,7 @@ class Table:
 
         # If dice is 5 and player have checkers in home, take out one of them
         if dVal == 5:
+            player.resetSixTimes()
             chkFive = player.checkersAtHome()
             if chkFive is not False: # you have checkers at home
                 resOut = player.toInitPos(chkFive, self.squares)
@@ -125,6 +126,8 @@ class Table:
                 chk = player.checkIfHasBarrier(None, 5, self.squares,
                                                stairSquares)
                 chkID = chk.getID()
+
+            player.resetSixTimes()
 
             dVal = 5
 
@@ -158,6 +161,8 @@ class Table:
                 if dVal == 6 or dVal == 12:
                     return -6
                 else:
+                    logging.info("player %s has a bug ", 
+                            player.getName())
                     return dVal
 
             # Check how many times the player has obtained six consecutively
@@ -185,7 +190,7 @@ class Table:
                     #    # follow in player turn, but try another checker
                     #    #self.turn(player, 6, chkID)
                     #    return -12
-            else:
+            elif not ((dVal == 20 or dVal == 10) and player.getSixTimes() > 0):
                 player.resetSixTimes()
 
         # Step 3 - Move
@@ -193,6 +198,11 @@ class Table:
             # nothing happened taking out one of my checkers,
             # or two checkers are in my initial position
             result = player.move(chk, chk.getSquare(), newSq, self.squares)
+            logging.info("number of six: %s", player.getSixTimes())
+            logging.info("dVal: %s", dVal)
+            if player.getSixTimes() == 2 and \
+                    (dVal == 20 or dVal == 10):
+                return 6
 
         # if we got 10 or 20 reward, move checker this quantity
         # resOut points eating when take out a checker to init pos
@@ -209,7 +219,7 @@ class Table:
                                                   stairSquares)
                 # in this case, we can not move this checker
                 if newSq == False:
-                    logging.info("player %s cannot move this checker ",
+                    logging.info("player %s cannot move selected checker ",
                             player.getName())
                     # follow in player turn, but try another checker
                     #self.getReward(player, result, stairSquares)
@@ -228,6 +238,4 @@ class Table:
             return dVal
         
         return True
-
-#    def getReward(self, player, result, stairSquares, chkID):
 

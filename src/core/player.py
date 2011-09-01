@@ -78,6 +78,10 @@ class Player:
             self.sixTimes = self.sixTimes + 1
             return True
 
+    def getSixTimes(self):
+        """ Get number of the times that player obtains 6 """
+        return self.sixTimes
+
     def getName(self):
         """ Get name of player """
         return self.name
@@ -224,7 +228,7 @@ class Player:
             # if not secure square, or is secure square but it is
             # my home, and not is stair o nirvana square, niam niam
             if (not sq.isSecure() or sqHome.getID() == sq.getID())\
-                    and not sq.isStair() and not sq.isNirvana():
+                    and not sq.isNirvana():
                 for enemyChk in enemyCheckers:
                     if enemyChk.getColor() <> chk.getColor():
                         logging.warn("Checker from player %s is lunched by "
@@ -435,6 +439,4 @@ class Player:
         if newSq.isNirvana():
             # TODO : Check if all checkers are in nirvana (4)
             chk.setInNirvana()
-            logging.info("IN NIRVANA!")
-            sys.exit(-1)
             return 10
